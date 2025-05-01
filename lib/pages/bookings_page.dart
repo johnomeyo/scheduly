@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:scheduly/constants/data.dart';
+import 'package:scheduly/models/business_model.dart';
 
 class BookingsPage extends StatefulWidget {
   const BookingsPage({super.key});
@@ -8,65 +10,66 @@ class BookingsPage extends StatefulWidget {
   State<BookingsPage> createState() => _BookingsPageState();
 }
 
-class _BookingsPageState extends State<BookingsPage> with SingleTickerProviderStateMixin {
+class _BookingsPageState extends State<BookingsPage>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  
-  // Mock data for bookings
-  final List<Booking> _upcomingBookings = [
-    Booking(
-      id: '1',
-      serviceName: 'Hair Cut & Style',
-      businessName: 'Modern Salon',
-      date: DateTime.now().add(const Duration(days: 2)),
-      timeSlot: '10:00 AM - 11:00 AM',
-      price: 45.00,
-      status: BookingStatus.confirmed,
-      imageUrl: 'https://example.com/salon.jpg',
-    ),
-    Booking(
-      id: '2',
-      serviceName: 'Deep Tissue Massage',
-      businessName: 'Wellness Spa',
-      date: DateTime.now().add(const Duration(days: 5)),
-      timeSlot: '2:30 PM - 3:30 PM',
-      price: 75.00,
-      status: BookingStatus.confirmed,
-      imageUrl: 'https://example.com/spa.jpg',
-    ),
-  ];
 
-  final List<Booking> _pastBookings = [
-    Booking(
-      id: '3',
-      serviceName: 'Dental Check-up',
-      businessName: 'Smile Dental Clinic',
-      date: DateTime.now().subtract(const Duration(days: 10)),
-      timeSlot: '9:00 AM - 10:00 AM',
-      price: 120.00,
-      status: BookingStatus.completed,
-      imageUrl: 'https://example.com/dental.jpg',
-    ),
-    Booking(
-      id: '4',
-      serviceName: 'Car Service',
-      businessName: 'AutoCare Center',
-      date: DateTime.now().subtract(const Duration(days: 20)),
-      timeSlot: '11:00 AM - 1:00 PM',
-      price: 199.99,
-      status: BookingStatus.completed,
-      imageUrl: 'https://example.com/car.jpg',
-    ),
-    Booking(
-      id: '5',
-      serviceName: 'Fitness Training',
-      businessName: 'Elite Gym',
-      date: DateTime.now().subtract(const Duration(days: 30)),
-      timeSlot: '6:00 PM - 7:00 PM',
-      price: 60.00,
-      status: BookingStatus.completed,
-      imageUrl: 'https://example.com/gym.jpg',
-    ),
-  ];
+  // // Mock data for bookings
+  // final List<Booking> _upcomingBookings = [
+  //   Booking(
+  //     id: '1',
+  //     serviceName: 'Hair Cut & Style',
+  //     businessName: 'Modern Salon',
+  //     date: DateTime.now().add(const Duration(days: 2)),
+  //     timeSlot: '10:00 AM - 11:00 AM',
+  //     price: 45.00,
+  //     status: BookingStatus.confirmed,
+  //     imageUrl: 'https://example.com/salon.jpg',
+  //   ),
+  //   Booking(
+  //     id: '2',
+  //     serviceName: 'Deep Tissue Massage',
+  //     businessName: 'Wellness Spa',
+  //     date: DateTime.now().add(const Duration(days: 5)),
+  //     timeSlot: '2:30 PM - 3:30 PM',
+  //     price: 75.00,
+  //     status: BookingStatus.confirmed,
+  //     imageUrl: 'https://example.com/spa.jpg',
+  //   ),
+  // ];
+
+  // final List<Booking> _pastBookings = [
+  //   Booking(
+  //     id: '3',
+  //     serviceName: 'Dental Check-up',
+  //     businessName: 'Smile Dental Clinic',
+  //     date: DateTime.now().subtract(const Duration(days: 10)),
+  //     timeSlot: '9:00 AM - 10:00 AM',
+  //     price: 120.00,
+  //     status: BookingStatus.completed,
+  //     imageUrl: 'https://example.com/dental.jpg',
+  //   ),
+  //   Booking(
+  //     id: '4',
+  //     serviceName: 'Car Service',
+  //     businessName: 'AutoCare Center',
+  //     date: DateTime.now().subtract(const Duration(days: 20)),
+  //     timeSlot: '11:00 AM - 1:00 PM',
+  //     price: 199.99,
+  //     status: BookingStatus.completed,
+  //     imageUrl: 'https://example.com/car.jpg',
+  //   ),
+  //   Booking(
+  //     id: '5',
+  //     serviceName: 'Fitness Training',
+  //     businessName: 'Elite Gym',
+  //     date: DateTime.now().subtract(const Duration(days: 30)),
+  //     timeSlot: '6:00 PM - 7:00 PM',
+  //     price: 60.00,
+  //     status: "completed",
+  //     imageUrl: 'https://example.com/gym.jpg',
+  //   ),
+  // ];
 
   @override
   void initState() {
@@ -83,11 +86,11 @@ class _BookingsPageState extends State<BookingsPage> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'My Bookings', 
+          'My Bookings',
           style: theme.textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
           ),
@@ -97,31 +100,33 @@ class _BookingsPageState extends State<BookingsPage> with SingleTickerProviderSt
           controller: _tabController,
           indicatorColor: theme.colorScheme.primary,
           labelColor: theme.colorScheme.primary,
-          unselectedLabelColor: theme.colorScheme.onSurface.withOpacity(0.6),
+          unselectedLabelColor: theme.colorScheme.onSurface.withValues(
+            alpha: 0.6,
+          ),
           labelStyle: theme.textTheme.titleSmall?.copyWith(
             fontWeight: FontWeight.w600,
           ),
-          tabs: const [
-            Tab(text: 'Upcoming'),
-            Tab(text: 'Past'),
-          ],
+          tabs: const [Tab(text: 'Upcoming'), Tab(text: 'Past')],
         ),
       ),
       body: TabBarView(
         controller: _tabController,
         children: [
-          _buildBookingsList(_upcomingBookings, isUpcoming: true),
-          _buildBookingsList(_pastBookings, isUpcoming: false),
+          _buildBookingsList(upcomingBookings, isUpcoming: true),
+          _buildBookingsList(pastBookings, isUpcoming: false),
         ],
       ),
     );
   }
 
-  Widget _buildBookingsList(List<Booking> bookings, {required bool isUpcoming}) {
+  Widget _buildBookingsList(
+    List<Booking> bookings, {
+    required bool isUpcoming,
+  }) {
     if (bookings.isEmpty) {
       return _buildEmptyState(isUpcoming);
     }
-    
+
     return ListView.builder(
       padding: const EdgeInsets.all(16),
       itemCount: bookings.length,
@@ -131,7 +136,8 @@ class _BookingsPageState extends State<BookingsPage> with SingleTickerProviderSt
           isUpcoming: isUpcoming,
           onTap: () => _viewBookingDetails(bookings[index]),
           onCancel: isUpcoming ? () => _cancelBooking(bookings[index]) : null,
-          onReschedule: isUpcoming ? () => _rescheduleBooking(bookings[index]) : null,
+          onReschedule:
+              isUpcoming ? () => _rescheduleBooking(bookings[index]) : null,
           onRebook: !isUpcoming ? () => _rebookService(bookings[index]) : null,
         );
       },
@@ -140,7 +146,7 @@ class _BookingsPageState extends State<BookingsPage> with SingleTickerProviderSt
 
   Widget _buildEmptyState(bool isUpcoming) {
     final theme = Theme.of(context);
-    
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -148,22 +154,20 @@ class _BookingsPageState extends State<BookingsPage> with SingleTickerProviderSt
           Icon(
             isUpcoming ? Icons.event_available : Icons.history,
             size: 80,
-            color: theme.colorScheme.primary.withOpacity(0.5),
+            color: theme.colorScheme.primary.withValues(alpha: 0.5),
           ),
           const SizedBox(height: 16),
           Text(
-            isUpcoming 
-                ? 'No upcoming bookings' 
-                : 'No past bookings',
+            isUpcoming ? 'No upcoming bookings' : 'No past bookings',
             style: theme.textTheme.titleLarge,
           ),
           const SizedBox(height: 8),
           Text(
-            isUpcoming 
-                ? 'Book a service to get started' 
+            isUpcoming
+                ? 'Book a service to get started'
                 : 'Your booking history will appear here',
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurface.withOpacity(0.6),
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
             ),
           ),
           const SizedBox(height: 24),
@@ -171,7 +175,10 @@ class _BookingsPageState extends State<BookingsPage> with SingleTickerProviderSt
             ElevatedButton(
               onPressed: () => _navigateToExplore(),
               style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 12,
+                ),
               ),
               child: const Text('Explore Services'),
             ),
@@ -228,13 +235,11 @@ class BookingCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final dateFormat = DateFormat('EEE, MMM d, yyyy');
-    
+
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
       elevation: 1,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
@@ -254,17 +259,17 @@ class BookingCard extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _buildStatusChip(booking.status, theme),
+                  _buildStatusChip("booking.status", theme),
                   Text(
                     dateFormat.format(booking.date),
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.onSurface.withOpacity(0.7),
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
                     ),
                   ),
                 ],
               ),
             ),
-            
+
             // Booking details
             Padding(
               padding: const EdgeInsets.all(16),
@@ -277,7 +282,7 @@ class BookingCard extends StatelessWidget {
                     child: Container(
                       width: 80,
                       height: 80,
-                      color: theme.colorScheme.primary.withOpacity(0.1),
+                      color: theme.colorScheme.primary.withValues(alpha: 0.1),
                       child: Icon(
                         _getServiceIcon(booking.serviceName),
                         color: theme.colorScheme.primary,
@@ -286,7 +291,7 @@ class BookingCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 16),
-                  
+
                   // Service details
                   Expanded(
                     child: Column(
@@ -309,13 +314,17 @@ class BookingCard extends StatelessWidget {
                             Icon(
                               Icons.access_time,
                               size: 16,
-                              color: theme.colorScheme.onSurface.withOpacity(0.6),
+                              color: theme.colorScheme.onSurface.withValues(
+                                alpha: 0.6,
+                              ),
                             ),
                             const SizedBox(width: 4),
                             Text(
                               booking.timeSlot,
                               style: theme.textTheme.bodySmall?.copyWith(
-                                color: theme.colorScheme.onSurface.withOpacity(0.7),
+                                color: theme.colorScheme.onSurface.withValues(
+                                  alpha: 0.7,
+                                ),
                               ),
                             ),
                           ],
@@ -334,7 +343,7 @@ class BookingCard extends StatelessWidget {
                 ],
               ),
             ),
-            
+
             // Actions
             if (isUpcoming || onRebook != null)
               Padding(
@@ -376,46 +385,37 @@ class BookingCard extends StatelessWidget {
     );
   }
 
-  Widget _buildStatusChip(BookingStatus status, ThemeData theme) {
+  Widget _buildStatusChip(String status, ThemeData theme) {
     Color? chipColor;
-    String statusText;
-    
+
     switch (status) {
-      case BookingStatus.confirmed:
+      case "Confirmed":
         chipColor = Colors.green;
-        statusText = 'Confirmed';
         break;
-      case BookingStatus.pending:
+      case "Pending":
         chipColor = Colors.orange;
-        statusText = 'Pending';
         break;
-      case BookingStatus.cancelled:
+      case 'Cancelled':
         chipColor = Colors.red;
-        statusText = 'Cancelled';
         break;
-      case BookingStatus.completed:
+      case "Completed":
         chipColor = Colors.blue;
-        statusText = 'Completed';
         break;
     }
-    
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: chipColor.withOpacity(0.1),
+        color: chipColor?.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            _getStatusIcon(status),
-            size: 14,
-            color: chipColor,
-          ),
+          Icon(_getStatusIcon(status), size: 14, color: chipColor),
           const SizedBox(width: 4),
           Text(
-            statusText,
+            "statusText",
             style: theme.textTheme.bodySmall?.copyWith(
               color: chipColor,
               fontWeight: FontWeight.w500,
@@ -426,16 +426,18 @@ class BookingCard extends StatelessWidget {
     );
   }
 
-  IconData _getStatusIcon(BookingStatus status) {
+  IconData _getStatusIcon(String status) {
     switch (status) {
-      case BookingStatus.confirmed:
+      case 'Confirmed':
         return Icons.check_circle_outline;
-      case BookingStatus.pending:
+      case 'Pending':
         return Icons.hourglass_empty;
-      case BookingStatus.cancelled:
+      case 'Cancelled':
         return Icons.cancel_outlined;
-      case BookingStatus.completed:
+      case 'Completed':
         return Icons.task_alt;
+      default:
+        return Icons.info_outline;
     }
   }
 
@@ -453,33 +455,4 @@ class BookingCard extends StatelessWidget {
     }
     return Icons.calendar_today;
   }
-}
-
-class Booking {
-  final String id;
-  final String serviceName;
-  final String businessName;
-  final DateTime date;
-  final String timeSlot;
-  final double price;
-  final BookingStatus status;
-  final String imageUrl;
-
-  Booking({
-    required this.id,
-    required this.serviceName,
-    required this.businessName,
-    required this.date,
-    required this.timeSlot,
-    required this.price,
-    required this.status,
-    required this.imageUrl,
-  });
-}
-
-enum BookingStatus {
-  confirmed,
-  pending,
-  cancelled,
-  completed,
 }
