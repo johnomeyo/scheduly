@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scheduly/pages/homepage.dart' show MainScreen;
+import 'package:scheduly/mainscreen.dart' show MainScreen;
 
 void main() {
   runApp(const MyApp());
