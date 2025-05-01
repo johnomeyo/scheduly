@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const primarySeedColor = Color(0xFF22BD0E);
+    const primarySeedColor = Color(0xFF067ABD);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,

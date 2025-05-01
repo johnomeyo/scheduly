@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:scheduly/constants/data.dart';
+import 'package:scheduly/models/service_model.dart';
+import 'package:scheduly/pages/service_bookings_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -33,42 +36,6 @@ class _HomePageState extends State<HomePage> {
     ),
   ];
 
-  // Mock data for featured services
-  final List<Service> _featuredServices = [
-    Service(
-      id: '1',
-      name: 'Spa & Massage',
-      description: 'Relax and rejuvenate with our spa treatments',
-      imageUrl: 'https://example.com/spa.jpg',
-      rating: 4.8,
-      reviewCount: 243,
-    ),
-    Service(
-      id: '2',
-      name: 'Hair & Beauty',
-      description: 'Professional hair styling and beauty services',
-      imageUrl: 'https://example.com/hair.jpg',
-      rating: 4.6,
-      reviewCount: 189,
-    ),
-    Service(
-      id: '3',
-      name: 'Health & Wellness',
-      description: 'Services to improve your health and well-being',
-      imageUrl: 'https://example.com/health.jpg',
-      rating: 4.7,
-      reviewCount: 156,
-    ),
-    Service(
-      id: '4',
-      name: 'Fitness & Training',
-      description: 'Personal training and fitness classes',
-      imageUrl: 'https://example.com/fitness.jpg',
-      rating: 4.5,
-      reviewCount: 132,
-    ),
-  ];
-
   // Mock data for popular businesses
   final List<Business> _popularBusinesses = [
     Business(
@@ -89,7 +56,8 @@ class _HomePageState extends State<HomePage> {
       distance: 0.8,
       rating: 4.7,
       reviewCount: 215,
-      imageUrl: 'https://example.com/hair-studio.jpg',
+      imageUrl:
+          'https://i.pinimg.com/736x/ec/e2/8a/ece28abe4a13dcefbf7f856e45b0a810.jpg',
     ),
     Business(
       id: '3',
@@ -99,7 +67,8 @@ class _HomePageState extends State<HomePage> {
       distance: 2.5,
       rating: 4.8,
       reviewCount: 178,
-      imageUrl: 'https://example.com/fitness-center.jpg',
+      imageUrl:
+          'https://marketplace.canva.com/EAFxdcos7WU/1/0/1600w/canva-dark-blue-and-brown-illustrative-fitness-gym-logo-oqe3ybeEcQQ.jpg',
     ),
   ];
 
@@ -123,7 +92,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final dateFormat = DateFormat('EEE, MMM d');
-    
+
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -145,7 +114,8 @@ class _HomePageState extends State<HomePage> {
                             Text(
                               'Good morning,',
                               style: theme.textTheme.bodyLarge?.copyWith(
-                                color: theme.colorScheme.onBackground.withOpacity(0.7),
+                                color: theme.colorScheme.onBackground
+                                    .withValues(alpha: 0.7),
                               ),
                             ),
                             const SizedBox(height: 4),
@@ -169,9 +139,9 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     ),
-                    
+
                     const SizedBox(height: 24),
-                    
+
                     // Search bar
                     TextField(
                       controller: _searchController,
@@ -188,32 +158,42 @@ class _HomePageState extends State<HomePage> {
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide.none,
                         ),
-                        contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 12,
+                        ),
                       ),
                       onSubmitted: (value) => _performSearch(value),
                     ),
-                    
+
                     // Recent searches
                     if (_recentSearches.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.only(top: 8),
                         child: Wrap(
                           spacing: 8,
-                          children: _recentSearches.map((search) => Chip(
-                            label: Text(search),
-                            onDeleted: () => _removeRecentSearch(search),
-                            backgroundColor: theme.colorScheme.surface,
-                            side: BorderSide(
-                              color: theme.colorScheme.outline.withOpacity(0.3),
-                            ),
-                          )).toList(),
+                          children:
+                              _recentSearches
+                                  .map(
+                                    (search) => Chip(
+                                      label: Text(search),
+                                      onDeleted:
+                                          () => _removeRecentSearch(search),
+                                      backgroundColor:
+                                          theme.colorScheme.surface,
+                                      side: BorderSide(
+                                        color: theme.colorScheme.outline
+                                            .withValues(alpha: 0.3),
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
                         ),
                       ),
                   ],
                 ),
               ),
             ),
-            
+
             // Next Appointment
             if (_upcomingBookings.isNotEmpty)
               SliverToBoxAdapter(
@@ -243,7 +223,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-            
+
             // Category Services Cards
             SliverToBoxAdapter(
               child: Padding(
@@ -262,14 +242,14 @@ class _HomePageState extends State<HomePage> {
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 12),
-                  itemCount: _featuredServices.length,
+                  itemCount: services.length,
                   itemBuilder: (context, index) {
-                    return _buildServiceCard(theme, _featuredServices[index]);
+                    return _buildServiceCard(theme, services[index]);
                   },
                 ),
               ),
             ),
-            
+
             // Popular Near You
             SliverToBoxAdapter(
               child: Padding(
@@ -292,14 +272,11 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  return _buildBusinessCard(theme, _popularBusinesses[index]);
-                },
-                childCount: _popularBusinesses.length,
-              ),
+              delegate: SliverChildBuilderDelegate((context, index) {
+                return _buildBusinessCard(theme, _popularBusinesses[index]);
+              }, childCount: _popularBusinesses.length),
             ),
-            
+
             // Special Offers
             SliverToBoxAdapter(
               child: Padding(
@@ -328,12 +305,10 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildNextAppointmentCard(ThemeData theme, DateFormat dateFormat) {
     final nextBooking = _upcomingBookings.first;
-    
+
     return Card(
       elevation: 1,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
         onTap: () => _viewBookingDetails(nextBooking),
         borderRadius: BorderRadius.circular(12),
@@ -350,7 +325,7 @@ class _HomePageState extends State<HomePage> {
                     child: Container(
                       width: 60,
                       height: 60,
-                      color: theme.colorScheme.primary.withOpacity(0.1),
+                      color: theme.colorScheme.primary.withValues(alpha: 0.1),
                       child: Icon(
                         _getServiceIcon(nextBooking.serviceName),
                         color: theme.colorScheme.primary,
@@ -359,7 +334,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   const SizedBox(width: 16),
-                  
+
                   // Booking details
                   Expanded(
                     child: Column(
@@ -375,7 +350,9 @@ class _HomePageState extends State<HomePage> {
                         Text(
                           nextBooking.businessName,
                           style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.onSurface.withOpacity(0.7),
+                            color: theme.colorScheme.onSurface.withValues(
+                              alpha: 0.7,
+                            ),
                           ),
                         ),
                         const SizedBox(height: 8),
@@ -400,7 +377,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               const SizedBox(height: 16),
-              
+
               // Action buttons
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -442,7 +419,7 @@ class _HomePageState extends State<HomePage> {
         color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: theme.colorScheme.outline.withOpacity(0.3),
+          color: theme.colorScheme.outline.withValues(alpha: 0.3),
         ),
       ),
       child: Row(
@@ -451,7 +428,7 @@ class _HomePageState extends State<HomePage> {
           Icon(
             icon,
             size: 14,
-            color: theme.colorScheme.onSurface.withOpacity(0.7),
+            color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
           ),
           const SizedBox(width: 4),
           Text(
@@ -465,14 +442,14 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildServiceCard(ThemeData theme, Service service) {
+  Widget _buildServiceCard(ThemeData theme, ServiceModel service) {
     return Card(
       margin: const EdgeInsets.all(4),
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: BorderSide(
-          color: theme.colorScheme.outline.withOpacity(0.2),
+          color: theme.colorScheme.outline.withValues(alpha: 0.2),
         ),
       ),
       child: InkWell(
@@ -487,7 +464,7 @@ class _HomePageState extends State<HomePage> {
               Container(
                 height: 90,
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.primary.withOpacity(0.1),
+                  color: theme.colorScheme.primary.withValues(alpha: 0.1),
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(12),
                     topRight: Radius.circular(12),
@@ -501,7 +478,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              
+
               // Service Details
               Padding(
                 padding: const EdgeInsets.all(12),
@@ -519,11 +496,7 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(height: 4),
                     Row(
                       children: [
-                        Icon(
-                          Icons.star,
-                          size: 14,
-                          color: Colors.amber,
-                        ),
+                        Icon(Icons.star, size: 14, color: Colors.amber),
                         const SizedBox(width: 4),
                         Text(
                           '${service.rating}',
@@ -534,7 +507,9 @@ class _HomePageState extends State<HomePage> {
                         Text(
                           ' (${service.reviewCount})',
                           style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.onSurface.withOpacity(0.6),
+                            color: theme.colorScheme.onSurface.withValues(
+                              alpha: 0.6,
+                            ),
                           ),
                         ),
                       ],
@@ -556,7 +531,7 @@ class _HomePageState extends State<HomePage> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: BorderSide(
-          color: theme.colorScheme.outline.withOpacity(0.2),
+          color: theme.colorScheme.outline.withValues(alpha: 0.2),
         ),
       ),
       child: InkWell(
@@ -573,7 +548,7 @@ class _HomePageState extends State<HomePage> {
                 child: Container(
                   width: 80,
                   height: 80,
-                  color: theme.colorScheme.primary.withOpacity(0.1),
+                  color: theme.colorScheme.primary.withValues(alpha: 0.1),
                   child: Icon(
                     _getCategoryIcon(business.category),
                     color: theme.colorScheme.primary,
@@ -582,7 +557,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               const SizedBox(width: 16),
-              
+
               // Business Details
               Expanded(
                 child: Column(
@@ -607,14 +582,18 @@ class _HomePageState extends State<HomePage> {
                         Icon(
                           Icons.location_on_outlined,
                           size: 14,
-                          color: theme.colorScheme.onSurface.withOpacity(0.6),
+                          color: theme.colorScheme.onSurface.withValues(
+                            alpha: 0.6,
+                          ),
                         ),
                         const SizedBox(width: 4),
                         Expanded(
                           child: Text(
                             '${business.address} • ${business.distance} mi',
                             style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.onSurface.withOpacity(0.6),
+                              color: theme.colorScheme.onSurface.withValues(
+                                alpha: 0.6,
+                              ),
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -625,11 +604,7 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(height: 4),
                     Row(
                       children: [
-                        Icon(
-                          Icons.star,
-                          size: 14,
-                          color: Colors.amber,
-                        ),
+                        Icon(Icons.star, size: 14, color: Colors.amber),
                         const SizedBox(width: 4),
                         Text(
                           '${business.rating}',
@@ -640,7 +615,9 @@ class _HomePageState extends State<HomePage> {
                         Text(
                           ' (${business.reviewCount})',
                           style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.onSurface.withOpacity(0.6),
+                            color: theme.colorScheme.onSurface.withValues(
+                              alpha: 0.6,
+                            ),
                           ),
                         ),
                       ],
@@ -658,9 +635,7 @@ class _HomePageState extends State<HomePage> {
   Widget _buildSpecialOfferCard(ThemeData theme) {
     return Card(
       elevation: 1,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
         onTap: () => _viewSpecialOffer(),
         borderRadius: BorderRadius.circular(12),
@@ -674,7 +649,7 @@ class _HomePageState extends State<HomePage> {
                 gradient: LinearGradient(
                   colors: [
                     theme.colorScheme.primary,
-                    theme.colorScheme.primary.withOpacity(0.7),
+                    theme.colorScheme.primary.withValues(alpha: 0.7),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -692,7 +667,7 @@ class _HomePageState extends State<HomePage> {
                     child: Icon(
                       Icons.spa_outlined,
                       size: 80,
-                      color: theme.colorScheme.onPrimary.withOpacity(0.2),
+                      color: theme.colorScheme.onPrimary.withValues(alpha: 0.2),
                     ),
                   ),
                   Padding(
@@ -701,9 +676,14 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
                           decoration: BoxDecoration(
-                            color: theme.colorScheme.onPrimary.withOpacity(0.2),
+                            color: theme.colorScheme.onPrimary.withValues(
+                              alpha: 0.2,
+                            ),
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: Text(
@@ -753,14 +733,18 @@ class _HomePageState extends State<HomePage> {
                         Text(
                           'Use code: FIRSTSPA20',
                           style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.onSurface.withOpacity(0.7),
+                            color: theme.colorScheme.onSurface.withValues(
+                              alpha: 0.7,
+                            ),
                           ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           'Valid until June 30, 2025',
                           style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.onSurface.withOpacity(0.6),
+                            color: theme.colorScheme.onSurface.withValues(
+                              alpha: 0.6,
+                            ),
                           ),
                         ),
                       ],
@@ -815,9 +799,15 @@ class _HomePageState extends State<HomePage> {
     print('Reschedule booking: ${booking.id}');
   }
 
-  void _viewServiceCategory(Service service) {
+  void _viewServiceCategory(ServiceModel service) {
     // Navigate to service category
     print('View service category: ${service.name}');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ServiceDetailsAndBookingsPage(service: service),
+      ),
+    );
   }
 
   void _viewAllBusinesses() {
@@ -857,13 +847,17 @@ class _HomePageState extends State<HomePage> {
   }
 
   IconData _getCategoryIcon(String category) {
-    if (category.toLowerCase().contains('spa') || category.toLowerCase().contains('massage')) {
+    if (category.toLowerCase().contains('spa') ||
+        category.toLowerCase().contains('massage')) {
       return Icons.spa;
-    } else if (category.toLowerCase().contains('hair') || category.toLowerCase().contains('beauty')) {
+    } else if (category.toLowerCase().contains('hair') ||
+        category.toLowerCase().contains('beauty')) {
       return Icons.content_cut;
-    } else if (category.toLowerCase().contains('health') || category.toLowerCase().contains('wellness')) {
+    } else if (category.toLowerCase().contains('health') ||
+        category.toLowerCase().contains('wellness')) {
       return Icons.favorite;
-    } else if (category.toLowerCase().contains('fitness') || category.toLowerCase().contains('training')) {
+    } else if (category.toLowerCase().contains('fitness') ||
+        category.toLowerCase().contains('training')) {
       return Icons.fitness_center;
     }
     return Icons.category;
@@ -893,12 +887,7 @@ class Booking {
   });
 }
 
-enum BookingStatus {
-  confirmed,
-  pending,
-  cancelled,
-  completed,
-}
+enum BookingStatus { confirmed, pending, cancelled, completed }
 
 class Service {
   final String id;
