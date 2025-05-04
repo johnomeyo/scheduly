@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scheduly/pages/bookings_page.dart';
 import 'package:scheduly/pages/homepage/homepage.dart';
-import 'package:scheduly/pages/profile_page.dart';
+import 'package:scheduly/pages/profile_page/profile_page.dart';
 
 // Main Screen - Container for bottom navigation
 class MainScreen extends StatefulWidget {

@@ -327,7 +327,7 @@ class _ServiceDetailsAndBookingsPageState extends State<ServiceDetailsAndBooking
                             decoration: BoxDecoration(
                               color: isSelected 
                                   ? Theme.of(context).colorScheme.primaryContainer
-                                  : Theme.of(context).colorScheme.surfaceVariant,
+                                  : Theme.of(context).colorScheme.surfaceContainerHighest,
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
                                 color: isSelected 
@@ -420,7 +420,7 @@ class _ServiceDetailsAndBookingsPageState extends State<ServiceDetailsAndBooking
                             decoration: BoxDecoration(
                               color: isSelected 
                                   ? Theme.of(context).colorScheme.primary
-                                  : Theme.of(context).colorScheme.surfaceVariant,
+                                  : Theme.of(context).colorScheme.surfaceContainerHighest,
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(

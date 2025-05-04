@@ -133,3 +133,30 @@ final List<Booking> pastBookings = [
     imageUrl: '',
   ),
 ];
+  // Mock user data
+  final Map<String, dynamic> userData = {
+    'name': 'Sarah Johnson',
+    'email': 'sarah.johnson@example.com',
+    'phone': '+1 (555) 123-4567',
+    'profileImage': 'https://example.com/profile.jpg',
+    'memberSince': 'May 2023',
+    'notificationsEnabled': true,
+    'darkModeEnabled': false,
+    'address': '123 Main Street, Apt 4B, New York, NY 10001',
+    'paymentMethods': [
+      {
+        'type': 'Credit Card',
+        'cardType': 'Visa',
+        'lastFour': '4242',
+        'isDefault': true,
+        'expiryDate': '05/26',
+      },
+      {
+        'type': 'Credit Card',
+        'cardType': 'Mastercard',
+        'lastFour': '8765',
+        'isDefault': false,
+        'expiryDate': '10/25',
+      },
+    ],
+  };
