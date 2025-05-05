@@ -47,20 +47,32 @@ class BusinessDetailsPage extends StatelessWidget {
                   const SizedBox(height: 24),
                   Card(
                     elevation: 0,
-                    color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),
+                    color: theme.colorScheme.surfaceContainerHighest.withValues(
+                      alpha: 0.4,
+                    ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: ListTile(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
                       title: const Text('Select Date'),
                       subtitle: Text(
                         selectedDate != null
                             ? '${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}'
                             : 'Tap to choose a date',
-                        style: TextStyle(color: theme.colorScheme.onSurface.withValues(alpha: 0.7)),
+                        style: TextStyle(
+                          color: theme.colorScheme.onSurface.withValues(
+                            alpha: 0.7,
+                          ),
+                        ),
                       ),
-                      trailing: Icon(Icons.calendar_today, color: theme.colorScheme.primary),
+                      trailing: Icon(
+                        Icons.calendar_today,
+                        color: theme.colorScheme.primary,
+                      ),
                       onTap: () async {
                         final now = DateTime.now();
                         final picked = await showDatePicker(
@@ -88,20 +100,32 @@ class BusinessDetailsPage extends StatelessWidget {
                   const SizedBox(height: 16),
                   Card(
                     elevation: 0,
-                    color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),
+                    color: theme.colorScheme.surfaceContainerHighest.withValues(
+                      alpha: 0.4,
+                    ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: ListTile(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
                       title: const Text('Select Time'),
                       subtitle: Text(
                         selectedTime != null
                             ? selectedTime!.format(context)
                             : 'Tap to choose a time',
-                        style: TextStyle(color: theme.colorScheme.onSurface.withValues(alpha: 0.7)),
+                        style: TextStyle(
+                          color: theme.colorScheme.onSurface.withValues(
+                            alpha: 0.7,
+                          ),
+                        ),
                       ),
-                      trailing: Icon(Icons.access_time, color: theme.colorScheme.primary),
+                      trailing: Icon(
+                        Icons.access_time,
+                        color: theme.colorScheme.primary,
+                      ),
                       onTap: () async {
                         final picked = await showTimePicker(
                           context: context,
@@ -133,10 +157,13 @@ class BusinessDetailsPage extends StatelessWidget {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               behavior: SnackBarBehavior.floating,
-                              backgroundColor: theme.colorScheme.primaryContainer,
+                              backgroundColor:
+                                  theme.colorScheme.primaryContainer,
                               content: Text(
                                 'Booked $serviceName on ${selectedDate!.day}/${selectedDate!.month} at ${selectedTime!.format(context)}',
-                                style: TextStyle(color: theme.colorScheme.onPrimaryContainer),
+                                style: TextStyle(
+                                  color: theme.colorScheme.onPrimaryContainer,
+                                ),
                               ),
                             ),
                           );
@@ -168,7 +195,7 @@ class BusinessDetailsPage extends StatelessWidget {
     int reviewCount,
   ) {
     final theme = Theme.of(context);
-    
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -189,11 +216,7 @@ class BusinessDetailsPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 4),
-              Icon(
-                Icons.star,
-                color: theme.colorScheme.onPrimary,
-                size: 18,
-              ),
+              Icon(Icons.star, color: theme.colorScheme.onPrimary, size: 18),
             ],
           ),
         ),
@@ -216,7 +239,7 @@ class BusinessDetailsPage extends StatelessWidget {
     String date,
   ) {
     final theme = Theme.of(context);
-    
+
     return Card(
       elevation: 0,
       margin: const EdgeInsets.symmetric(vertical: 8),
@@ -234,7 +257,9 @@ class BusinessDetailsPage extends StatelessWidget {
             Row(
               children: [
                 CircleAvatar(
-                  backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.2),
+                  backgroundColor: theme.colorScheme.primary.withValues(
+                    alpha: 0.2,
+                  ),
                   child: Text(
                     name.isNotEmpty ? name[0].toUpperCase() : '?',
                     style: TextStyle(
@@ -258,7 +283,9 @@ class BusinessDetailsPage extends StatelessWidget {
                       Text(
                         date,
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                          color: theme.colorScheme.onSurface.withValues(
+                            alpha: 0.6,
+                          ),
                         ),
                       ),
                     ],
@@ -273,20 +300,13 @@ class BusinessDetailsPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 4),
-                    Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                      size: 16,
-                    ),
+                    Icon(Icons.star, color: Colors.amber, size: 16),
                   ],
                 ),
               ],
             ),
             const SizedBox(height: 12),
-            Text(
-              comment,
-              style: theme.textTheme.bodyMedium,
-            ),
+            Text(comment, style: theme.textTheme.bodyMedium),
           ],
         ),
       ),
@@ -296,26 +316,29 @@ class BusinessDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     // Sample service data with prices
     final services = [
       {
         'name': 'Massage Therapy',
         'price': '\$75',
         'duration': '60 min',
-        'description': 'Relaxing deep tissue massage to relieve stress and tension.',
+        'description':
+            'Relaxing deep tissue massage to relieve stress and tension.',
       },
       {
         'name': 'Facial Treatment',
         'price': '\$90',
         'duration': '45 min',
-        'description': 'Rejuvenating facial that cleanses, exfoliates and hydrates your skin.',
+        'description':
+            'Rejuvenating facial that cleanses, exfoliates and hydrates your skin.',
       },
       {
         'name': 'Aromatherapy',
         'price': '\$60',
         'duration': '30 min',
-        'description': 'Essential oil therapy to improve physical and emotional well-being.',
+        'description':
+            'Essential oil therapy to improve physical and emotional well-being.',
       },
     ];
 
@@ -324,19 +347,22 @@ class BusinessDetailsPage extends StatelessWidget {
       {
         'name': 'Sarah Johnson',
         'rating': 5.0,
-        'comment': 'The massage was incredible! The therapist knew exactly how to address my back pain issues. Highly recommend!',
+        'comment':
+            'The massage was incredible! The therapist knew exactly how to address my back pain issues. Highly recommend!',
         'date': 'April 28, 2025',
       },
       {
         'name': 'Michael Chen',
         'rating': 4.5,
-        'comment': 'Great facial treatment, my skin feels refreshed and rejuvenated. The ambiance was perfect for relaxation.',
+        'comment':
+            'Great facial treatment, my skin feels refreshed and rejuvenated. The ambiance was perfect for relaxation.',
         'date': 'April 22, 2025',
       },
       {
         'name': 'Jessica Smith',
         'rating': 4.8,
-        'comment': 'The aromatherapy session was exactly what I needed after a stressful week. Will definitely be back!',
+        'comment':
+            'The aromatherapy session was exactly what I needed after a stressful week. Will definitely be back!',
         'date': 'April 15, 2025',
       },
     ];
@@ -348,14 +374,8 @@ class BusinessDetailsPage extends StatelessWidget {
         elevation: 0,
         iconTheme: IconThemeData(color: Colors.white),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.share),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: const Icon(Icons.favorite_border),
-            onPressed: () {},
-          ),
+          IconButton(icon: const Icon(Icons.share), onPressed: () {}),
+          IconButton(icon: const Icon(Icons.favorite_border), onPressed: () {}),
         ],
       ),
       body: CustomScrollView(
@@ -380,11 +400,7 @@ class BusinessDetailsPage extends StatelessWidget {
                   Positioned.fill(
                     child: Opacity(
                       opacity: 0.1,
-                      child: Icon(
-                        Icons.spa,
-                        size: 240,
-                        color: Colors.white,
-                      ),
+                      child: Icon(Icons.spa, size: 240, color: Colors.white),
                     ),
                   ),
                   // Content
@@ -404,8 +420,11 @@ class BusinessDetailsPage extends StatelessWidget {
                               ),
                               child: CircleAvatar(
                                 radius: 32,
-                                backgroundColor: theme.colorScheme.primaryContainer,
-                                backgroundImage: NetworkImage("https://media.istockphoto.com/id/867037792/vector/lotus-icon.jpg?s=612x612&w=0&k=20&c=BtCotEldUZfhV99avCEMT8ITXADqgykETGXI90afgPo="),
+                                backgroundColor:
+                                    theme.colorScheme.primaryContainer,
+                                backgroundImage: NetworkImage(
+                                  "https://media.istockphoto.com/id/867037792/vector/lotus-icon.jpg?s=612x612&w=0&k=20&c=BtCotEldUZfhV99avCEMT8ITXADqgykETGXI90afgPo=",
+                                ),
                                 child: Icon(
                                   Icons.spa,
                                   size: 32,
@@ -420,16 +439,20 @@ class BusinessDetailsPage extends StatelessWidget {
                                 children: [
                                   Text(
                                     'Wellness Spa Center',
-                                    style: theme.textTheme.headlineSmall?.copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    style: theme.textTheme.headlineSmall
+                                        ?.copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                   ),
                                   Text(
                                     'Relax. Recharge. Renew.',
-                                    style: theme.textTheme.titleMedium?.copyWith(
-                                      color: Colors.white.withValues(alpha: 0.9),
-                                    ),
+                                    style: theme.textTheme.titleMedium
+                                        ?.copyWith(
+                                          color: Colors.white.withValues(
+                                            alpha: 0.9,
+                                          ),
+                                        ),
                                   ),
                                 ],
                               ),
@@ -466,10 +489,15 @@ class BusinessDetailsPage extends StatelessWidget {
             child: Transform.translate(
               offset: const Offset(0, -20),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 16,
+                ),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.surface,
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(24),
+                  ),
                 ),
                 child: Column(
                   children: [
@@ -518,7 +546,9 @@ class BusinessDetailsPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: theme.colorScheme.shadow.withValues(alpha: 0.05),
+                          color: theme.colorScheme.shadow.withValues(
+                            alpha: 0.05,
+                          ),
                           blurRadius: 10,
                           offset: const Offset(0, 4),
                         ),
@@ -537,11 +567,23 @@ class BusinessDetailsPage extends StatelessWidget {
                         const SizedBox(height: 16),
                         Row(
                           children: [
-                            _buildFeatureChip(context, Icons.schedule, 'Open Daily'),
+                            _buildFeatureChip(
+                              context,
+                              Icons.schedule,
+                              'Open Daily',
+                            ),
                             const SizedBox(width: 8),
-                            _buildFeatureChip(context, Icons.watch_later, '9am - 8pm'),
+                            _buildFeatureChip(
+                              context,
+                              Icons.watch_later,
+                              '9am - 8pm',
+                            ),
                             const SizedBox(width: 8),
-                            _buildFeatureChip(context, Icons.check_circle, 'Certified'),
+                            _buildFeatureChip(
+                              context,
+                              Icons.check_circle,
+                              'Certified',
+                            ),
                           ],
                         ),
                       ],
@@ -586,30 +628,38 @@ class BusinessDetailsPage extends StatelessWidget {
                               children: [
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         service['name'] as String,
-                                        style: theme.textTheme.titleMedium?.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                        style: theme.textTheme.titleMedium
+                                            ?.copyWith(
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                       ),
                                       const SizedBox(height: 4),
                                       Row(
                                         children: [
                                           Text(
                                             service['price'] as String,
-                                            style: theme.textTheme.titleMedium?.copyWith(
-                                              color: theme.colorScheme.primary,
-                                              fontWeight: FontWeight.bold,
-                                            ),
+                                            style: theme.textTheme.titleMedium
+                                                ?.copyWith(
+                                                  color:
+                                                      theme.colorScheme.primary,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                           ),
                                           const SizedBox(width: 8),
                                           Text(
                                             '· ${service['duration']}',
-                                            style: theme.textTheme.bodyMedium?.copyWith(
-                                              color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
-                                            ),
+                                            style: theme.textTheme.bodyMedium
+                                                ?.copyWith(
+                                                  color: theme
+                                                      .colorScheme
+                                                      .onSurface
+                                                      .withValues(alpha: 0.6),
+                                                ),
                                           ),
                                         ],
                                       ),
@@ -624,7 +674,11 @@ class BusinessDetailsPage extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  onPressed: () => _showBookingSheet(context, service['name'] as String),
+                                  onPressed:
+                                      () => _showBookingSheet(
+                                        context,
+                                        service['name'] as String,
+                                      ),
                                   child: const Text('Book'),
                                 ),
                               ],
@@ -633,7 +687,9 @@ class BusinessDetailsPage extends StatelessWidget {
                             Text(
                               service['description'] as String,
                               style: theme.textTheme.bodyMedium?.copyWith(
-                                color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                                color: theme.colorScheme.onSurface.withValues(
+                                  alpha: 0.7,
+                                ),
                               ),
                             ),
                           ],
@@ -663,13 +719,15 @@ class BusinessDetailsPage extends StatelessWidget {
                   const SizedBox(height: 16),
 
                   // Review Cards
-                  ...reviews.map((review) => _buildReviewItem(
-                        context,
-                        review['name'] as String,
-                        review['rating'] as double,
-                        review['comment'] as String,
-                        review['date'] as String,
-                      )),
+                  ...reviews.map(
+                    (review) => _buildReviewItem(
+                      context,
+                      review['name'] as String,
+                      review['rating'] as double,
+                      review['comment'] as String,
+                      review['date'] as String,
+                    ),
+                  ),
                   const SizedBox(height: 16),
                   Center(
                     child: TextButton(
@@ -689,7 +747,7 @@ class BusinessDetailsPage extends StatelessWidget {
 
   Widget _buildFeatureChip(BuildContext context, IconData icon, String label) {
     final theme = Theme.of(context);
-    
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
@@ -699,11 +757,7 @@ class BusinessDetailsPage extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            icon,
-            size: 16,
-            color: theme.colorScheme.primary,
-          ),
+          Icon(icon, size: 16, color: theme.colorScheme.primary),
           const SizedBox(width: 4),
           Text(
             label,
