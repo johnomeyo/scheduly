@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:scheduly/constants/data.dart';
-import 'package:scheduly/models/business_model.dart';
+import 'package:scheduly/models/business.dart';
+import 'package:scheduly/pages/booking_details_page.dart';
+import 'package:scheduly/pages/reschedule_page.dart';
 
 class BookingsPage extends StatefulWidget {
   const BookingsPage({super.key});
@@ -13,63 +15,6 @@ class BookingsPage extends StatefulWidget {
 class _BookingsPageState extends State<BookingsPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-
-  // // Mock data for bookings
-  // final List<Booking> _upcomingBookings = [
-  //   Booking(
-  //     id: '1',
-  //     serviceName: 'Hair Cut & Style',
-  //     businessName: 'Modern Salon',
-  //     date: DateTime.now().add(const Duration(days: 2)),
-  //     timeSlot: '10:00 AM - 11:00 AM',
-  //     price: 45.00,
-  //     status: BookingStatus.confirmed,
-  //     imageUrl: 'https://example.com/salon.jpg',
-  //   ),
-  //   Booking(
-  //     id: '2',
-  //     serviceName: 'Deep Tissue Massage',
-  //     businessName: 'Wellness Spa',
-  //     date: DateTime.now().add(const Duration(days: 5)),
-  //     timeSlot: '2:30 PM - 3:30 PM',
-  //     price: 75.00,
-  //     status: BookingStatus.confirmed,
-  //     imageUrl: 'https://example.com/spa.jpg',
-  //   ),
-  // ];
-
-  // final List<Booking> _pastBookings = [
-  //   Booking(
-  //     id: '3',
-  //     serviceName: 'Dental Check-up',
-  //     businessName: 'Smile Dental Clinic',
-  //     date: DateTime.now().subtract(const Duration(days: 10)),
-  //     timeSlot: '9:00 AM - 10:00 AM',
-  //     price: 120.00,
-  //     status: BookingStatus.completed,
-  //     imageUrl: 'https://example.com/dental.jpg',
-  //   ),
-  //   Booking(
-  //     id: '4',
-  //     serviceName: 'Car Service',
-  //     businessName: 'AutoCare Center',
-  //     date: DateTime.now().subtract(const Duration(days: 20)),
-  //     timeSlot: '11:00 AM - 1:00 PM',
-  //     price: 199.99,
-  //     status: BookingStatus.completed,
-  //     imageUrl: 'https://example.com/car.jpg',
-  //   ),
-  //   Booking(
-  //     id: '5',
-  //     serviceName: 'Fitness Training',
-  //     businessName: 'Elite Gym',
-  //     date: DateTime.now().subtract(const Duration(days: 30)),
-  //     timeSlot: '6:00 PM - 7:00 PM',
-  //     price: 60.00,
-  //     status: "completed",
-  //     imageUrl: 'https://example.com/gym.jpg',
-  //   ),
-  // ];
 
   @override
   void initState() {
@@ -138,7 +83,10 @@ class _BookingsPageState extends State<BookingsPage>
           onCancel: isUpcoming ? () => _cancelBooking(bookings[index]) : null,
           onReschedule:
               isUpcoming ? () => _rescheduleBooking(bookings[index]) : null,
-          onRebook: !isUpcoming ? () => _rebookService(bookings[index]) : null,
+          onRebook:
+              !isUpcoming
+                  ? () => _rebookService(context, bookings[index])
+                  : null,
         );
       },
     );
@@ -189,22 +137,73 @@ class _BookingsPageState extends State<BookingsPage>
 
   void _viewBookingDetails(Booking booking) {
     // Navigate to booking details page
-    print('View details for booking: ${booking.id}');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BookingDetailsPage(booking: booking),
+      ),
+    );
   }
 
   void _cancelBooking(Booking booking) {
     // Show confirmation dialog and cancel booking
-    print('Cancel booking: ${booking.id}');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BookingDetailsPage(booking: booking),
+      ),
+    );
   }
 
   void _rescheduleBooking(Booking booking) {
     // Navigate to reschedule page
-    print('Reschedule booking: ${booking.id}');
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ReschedulePage(booking: booking)),
+    );
   }
 
-  void _rebookService(Booking booking) {
-    // Rebook the same service
-    print('Rebook service: ${booking.serviceName}');
+  void _rebookService(BuildContext context, Booking booking) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(const Duration(days: 90)),
+    );
+
+    if (pickedDate == null) return; // User canceled
+
+    final TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+
+    if (pickedTime == null) return; // User canceled
+
+    final DateTime finalBookingDateTime = DateTime(
+      pickedDate.year,
+      pickedDate.month,
+      pickedDate.day,
+      pickedTime.hour,
+      pickedTime.minute,
+    );
+
+    // Simulate rebooking logic (e.g., API call)
+    // await BookingService.rebook(...);
+
+    // Show confirmation
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Rebooked ${booking.serviceName} for ${finalBookingDateTime.toLocal()}',
+          ),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+
+    print('Rebooked ${booking.serviceName} at $finalBookingDateTime');
   }
 
   void _navigateToExplore() {

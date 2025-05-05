@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scheduly/pages/notifications_page.dart';
 
 class HomeHeaderSection extends StatefulWidget {
   const HomeHeaderSection({super.key});
@@ -35,7 +36,9 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
 
   void _openNotifications() {
     // Navigate to notification screen
-    debugPrint('Notifications opened');
+    Navigator.push(context, MaterialPageRoute(
+      builder: (context) => const NotificationsPage(),
+    ));
   }
 
   @override

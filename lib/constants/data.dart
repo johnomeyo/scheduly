@@ -1,4 +1,4 @@
-import 'package:scheduly/models/business_model.dart';
+import 'package:scheduly/models/business.dart';
 import 'package:scheduly/models/service_model.dart';
 
 final List<ServiceModel> services = [
@@ -133,30 +133,30 @@ final List<Booking> pastBookings = [
     imageUrl: '',
   ),
 ];
-  // Mock user data
-  final Map<String, dynamic> userData = {
-    'name': 'Sarah Johnson',
-    'email': 'sarah.johnson@example.com',
-    'phone': '+1 (555) 123-4567',
-    'profileImage': 'https://example.com/profile.jpg',
-    'memberSince': 'May 2023',
-    'notificationsEnabled': true,
-    'darkModeEnabled': false,
-    'address': '123 Main Street, Apt 4B, New York, NY 10001',
-    'paymentMethods': [
-      {
-        'type': 'Credit Card',
-        'cardType': 'Visa',
-        'lastFour': '4242',
-        'isDefault': true,
-        'expiryDate': '05/26',
-      },
-      {
-        'type': 'Credit Card',
-        'cardType': 'Mastercard',
-        'lastFour': '8765',
-        'isDefault': false,
-        'expiryDate': '10/25',
-      },
-    ],
-  };
+// Mock user data
+final Map<String, dynamic> userData = {
+  'name': 'Sarah Johnson',
+  'email': 'sarah.johnson@example.com',
+  'phone': '+1 (555) 123-4567',
+  'profileImage':
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzzIJDNaWFPDga2VWx9G4rM2IST-kPixumaw&s',
+  'memberSince': 'May 2023',
+  'notificationsEnabled': true,
+  'address': '123 Main Street, Apt 4B, New York, NY 10001',
+  'paymentMethods': [
+    {
+      'type': 'Credit Card',
+      'cardType': 'Visa',
+      'lastFour': '4242',
+      'isDefault': true,
+      'expiryDate': '05/26',
+    },
+    {
+      'type': 'Credit Card',
+      'cardType': 'Mastercard',
+      'lastFour': '8765',
+      'isDefault': false,
+      'expiryDate': '10/25',
+    },
+  ],
+};

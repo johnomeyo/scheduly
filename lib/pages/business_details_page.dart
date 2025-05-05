@@ -405,6 +405,7 @@ class BusinessDetailsPage extends StatelessWidget {
                               child: CircleAvatar(
                                 radius: 32,
                                 backgroundColor: theme.colorScheme.primaryContainer,
+                                backgroundImage: NetworkImage("https://media.istockphoto.com/id/867037792/vector/lotus-icon.jpg?s=612x612&w=0&k=20&c=BtCotEldUZfhV99avCEMT8ITXADqgykETGXI90afgPo="),
                                 child: Icon(
                                   Icons.spa,
                                   size: 32,
@@ -682,25 +683,6 @@ class BusinessDetailsPage extends StatelessWidget {
             ),
           ),
         ],
-      ),
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: FilledButton(
-            style: ButtonStyle(
-              padding: WidgetStateProperty.all(
-                const EdgeInsets.symmetric(vertical: 16),
-              ),
-              shape: WidgetStateProperty.all(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-            ),
-            onPressed: () => _showBookingSheet(context, 'Service'),
-            child: const Text('Book Appointment'),
-          ),
-        ),
       ),
     );
   }

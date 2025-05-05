@@ -51,7 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             // Profile header
             ProfileHeaderWidget(
-              imageUrl: userData['imageUrl'],
+              imageUrl: userData['profileImage'],
               name: userData['name'],
               email: userData['email'],
               phone: userData['phone'],

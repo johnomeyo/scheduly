@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:scheduly/constants/data.dart';
-import 'package:scheduly/models/business_model.dart';
+import 'package:scheduly/models/business.dart';
+import 'package:scheduly/pages/business_details_page.dart';
 import 'package:scheduly/pages/homepage/featured_services_section.dart';
 import 'package:scheduly/pages/homepage/home_header_section.dart';
 import 'package:scheduly/pages/homepage/next_appointement_section.dart';
@@ -232,7 +233,11 @@ class _HomePageState extends State<HomePage> {
 
   void _viewBusinessDetails(Business business) {
     // Navigate to business details
-    print('View business details: ${business.name}');
+    // Navigate to business details
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => BusinessDetailsPage()),
+    );
   }
 
   // Helper methods

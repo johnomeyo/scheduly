@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scheduly/models/business_model.dart';
+import 'package:scheduly/models/business.dart';
 import 'package:scheduly/pages/business_details_page.dart';
 
 class AllPopularBusinessesPage extends StatefulWidget {
