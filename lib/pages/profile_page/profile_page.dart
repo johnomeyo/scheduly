@@ -87,7 +87,7 @@ class _ProfilePageState extends State<ProfilePage> {
             SupportSection(),
             const SizedBox(height: 24),
             // Logout button
-            LogoutButtonWidget(onLogout: () {}),
+            LogoutButtonWidget(onLogout: ()=>_logout(context)),
             const SizedBox(height: 32),
           ],
         ),
@@ -118,6 +118,36 @@ class _ProfilePageState extends State<ProfilePage> {
   void _editProfile() {
     // Navigate to edit profile page
   }
+void _logout(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text('Log Out'),
+      content: const Text('Are you sure you want to log out?'),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(), // Cancel
+          child: const Text('Cancel'),
+        ),
+        FilledButton(
+          onPressed: () {
+            Navigator.of(context).pop(); // Close the dialog
+
+            // Here you can also clear auth state or navigate to login
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Logged out successfully'),
+                duration: Duration(seconds: 2),
+              ),
+            );
+          },
+          child: const Text('Log Out'),
+        ),
+      ],
+    ),
+  );
+}
 
   void _navigateToPrivacySettings() {
     // Navigate to privacy settings page
@@ -133,9 +163,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void _showPaymentMethodOptions(Map<String, dynamic> paymentMethod) {
     // Show bottom sheet with payment method options
-    print(
-      'Show options for payment method: ${paymentMethod['cardType']} ••••${paymentMethod['lastFour']}',
-    );
+
   }
 
 }

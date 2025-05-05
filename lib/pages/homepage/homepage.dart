@@ -6,6 +6,8 @@ import 'package:scheduly/pages/homepage/featured_services_section.dart';
 import 'package:scheduly/pages/homepage/home_header_section.dart';
 import 'package:scheduly/pages/homepage/next_appointement_section.dart';
 import 'package:scheduly/pages/homepage/special_offer_section.dart';
+import 'package:scheduly/pages/popular_business_page.dart'
+    show AllPopularBusinessesPage;
 import 'package:scheduly/pages/service_bookings_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -69,7 +71,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () => _viewAllBusinesses(),
+                      onPressed: () => _viewAllBusinesses(context),
                       child: const Text('View All'),
                     ),
                   ],
@@ -96,7 +98,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                     const SpecialOfferCard(),
+                    const SpecialOfferCard(),
                     const SizedBox(height: 32),
                   ],
                 ),
@@ -216,19 +218,22 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
-
-  void _viewAllBusinesses() {
+  void _viewAllBusinesses(BuildContext context) {
     // Navigate to all businesses
-    print('View all businesses');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder:
+            (context) =>
+                AllPopularBusinessesPage(businesses: popularBusinesses),
+      ),
+    );
   }
 
   void _viewBusinessDetails(Business business) {
     // Navigate to business details
     print('View business details: ${business.name}');
   }
-
-
 
   // Helper methods
 

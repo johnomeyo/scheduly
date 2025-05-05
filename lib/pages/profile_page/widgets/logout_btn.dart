@@ -24,7 +24,7 @@ class LogoutButtonWidget extends StatelessWidget {
             side: BorderSide(color: theme.colorScheme.error, width: 1.5),
             padding: const EdgeInsets.symmetric(vertical: 14), // Slightly more padding
             shape: RoundedRectangleBorder( // Consistent rounded corners
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(25),
             ),
           ),
         ),

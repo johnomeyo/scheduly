@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:scheduly/pages/booking_page/booking_page.dart';
+import 'package:scheduly/pages/special_offer_details_page.dart';
 
 class SpecialOfferCard extends StatelessWidget {
   const SpecialOfferCard({super.key});
-
-  void _viewSpecialOffer() {
-    // Navigate to special offer details
-    print('View special offer details');
+  void _viewSpecialOffer(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const SpecialOfferDetailsPage()),
+    );
   }
 
-  void _bookNow() {
-    // Implement actual booking logic or navigation
-    print('Book now - special offer');
+  void _bookNow(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const BookingPage()),
+    );
   }
 
   @override
@@ -21,7 +26,7 @@ class SpecialOfferCard extends StatelessWidget {
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
-        onTap: _viewSpecialOffer,
+        onTap: () => _viewSpecialOffer(context),
         borderRadius: BorderRadius.circular(12),
         child: Column(
           children: [
@@ -129,7 +134,7 @@ class SpecialOfferCard extends StatelessWidget {
                     ),
                   ),
                   FilledButton(
-                    onPressed: _bookNow,
+                    onPressed: () => _bookNow(context),
                     child: const Text('Book Now'),
                   ),
                 ],

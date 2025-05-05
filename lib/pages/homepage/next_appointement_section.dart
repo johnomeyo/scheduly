@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:scheduly/models/business_model.dart';
+import 'package:scheduly/pages/bookings_page.dart';
 
 class NextAppointmentSection extends StatefulWidget {
   final List<Booking> upcomingBookings;
@@ -18,7 +19,10 @@ class NextAppointmentSection extends StatefulWidget {
 
 class _NextAppointmentSectionState extends State<NextAppointmentSection> {
   void _viewAllBookings() {
-    debugPrint('View all bookings tapped');
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => BookingsPage()),
+    );
   }
 
   void _viewBookingDetails(Booking booking) {
@@ -58,7 +62,9 @@ class _NextAppointmentSectionState extends State<NextAppointmentSection> {
           Text(label),
         ],
       ),
-      backgroundColor: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+      backgroundColor: theme.colorScheme.surfaceContainerHighest.withValues(
+        alpha: 0.3,
+      ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
     );
   }
@@ -109,7 +115,9 @@ class _NextAppointmentSectionState extends State<NextAppointmentSection> {
                         Text(
                           nextBooking.businessName,
                           style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                            color: theme.colorScheme.onSurface.withValues(
+                              alpha: 0.7,
+                            ),
                           ),
                         ),
                         const SizedBox(height: 8),

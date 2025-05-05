@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:scheduly/models/business_model.dart';
+import 'package:scheduly/pages/popular_business_page.dart';
 
 class PopularNearYouSection extends StatelessWidget {
   final List<Business> popularBusinesses;
 
   const PopularNearYouSection({super.key, required this.popularBusinesses});
 
-  void _viewAllBusinesses() {
+  void _viewAllBusinesses(BuildContext context) {
     // Navigate to all businesses
-    print('View all businesses');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder:
+            (context) =>
+                AllPopularBusinessesPage(businesses: popularBusinesses),
+      ),
+    );
   }
 
   IconData _getCategoryIcon(String category) {
@@ -148,7 +156,7 @@ class PopularNearYouSection extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: _viewAllBusinesses,
+                  onPressed: () => _viewAllBusinesses(context),
                   child: const Text('View All'),
                 ),
               ],
