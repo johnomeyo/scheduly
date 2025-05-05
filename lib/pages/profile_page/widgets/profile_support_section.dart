@@ -1,26 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:scheduly/pages/profile_page/nested_pages/contact_support_page.dart'
+    show ContactSupportPage;
+import 'package:scheduly/pages/profile_page/nested_pages/help_center_page.dart';
+import 'package:scheduly/pages/profile_page/nested_pages/privacy_policy_page.dart';
+import 'package:scheduly/pages/profile_page/nested_pages/terms_of_service_page.dart';
 
 class SupportSection extends StatelessWidget {
   const SupportSection({super.key});
 
   void _navigateToHelpCenter(BuildContext context) {
-    // Replace with actual navigation logic
-    // Navigator.pushNamed(context, '/help-center');
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const HelpCenterPage()),
+    );
   }
 
   void _contactSupport(BuildContext context) {
-    // Replace with actual contact support logic
-    // Navigator.pushNamed(context, '/contact-support');
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ContactSupportPage()),
+    );
   }
 
   void _viewTermsOfService(BuildContext context) {
-    // Replace with actual terms screen logic
-    // Navigator.pushNamed(context, '/terms');
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const TermsOfServicePage()),
+    );
   }
 
   void _viewPrivacyPolicy(BuildContext context) {
-    // Replace with actual privacy policy screen logic
-    // Navigator.pushNamed(context, '/privacy');
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const PrivacyPolicyPage()),
+    );
   }
 
   @override
