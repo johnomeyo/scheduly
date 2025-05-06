@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:scheduly/mainscreen.dart' show MainScreen;
+import 'package:scheduly/pages/onboarding/onboarding_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.dark,
         ),
       ),
-      home: const MainScreen(),
+      home: const OnboardingScreen(),
     );
   }
 }
