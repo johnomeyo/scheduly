@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scheduly/mainscreen.dart';
+import 'package:scheduly/pages/auth/forgot_password_page.dart'
+    show ForgotPasswordPage;
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -96,7 +98,9 @@ class _AuthPageState extends State<AuthPage> {
                             ? 'Sign in to continue'
                             : 'Sign up to get started',
                         style: theme.textTheme.bodyLarge?.copyWith(
-                          color: theme.colorScheme.onSurface.withOpacity(0.7),
+                          color: theme.colorScheme.onSurface.withValues(
+                            alpha: 0.7,
+                          ),
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -190,12 +194,12 @@ class _AuthPageState extends State<AuthPage> {
                             alignment: Alignment.centerRight,
                             child: TextButton(
                               onPressed: () {
-                                // Forgot password action
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      'Forgot password feature would be implemented here',
-                                    ),
+                                // Forgot Navigate to Forgot Password Page
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder:
+                                        (context) => const ForgotPasswordPage(),
                                   ),
                                 );
                               },
@@ -241,8 +245,8 @@ class _AuthPageState extends State<AuthPage> {
                     children: [
                       Expanded(
                         child: Divider(
-                          color: theme.colorScheme.onBackground.withOpacity(
-                            0.3,
+                          color: theme.colorScheme.onSurface.withValues(
+                            alpha: 0.3,
                           ),
                         ),
                       ),
@@ -251,14 +255,18 @@ class _AuthPageState extends State<AuthPage> {
                         child: Text(
                           'OR',
                           style: TextStyle(
-                            color: theme.colorScheme.onSurface.withOpacity(0.5),
+                            color: theme.colorScheme.onSurface.withValues(
+                              alpha: 0.5,
+                            ),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
                       Expanded(
                         child: Divider(
-                          color: theme.colorScheme.onSurface.withOpacity(0.3),
+                          color: theme.colorScheme.onSurface.withValues(
+                            alpha: 0.3,
+                          ),
                         ),
                       ),
                     ],
@@ -325,8 +333,8 @@ class _AuthPageState extends State<AuthPage> {
                             ? 'Don\'t have an account?'
                             : 'Already have an account?',
                         style: TextStyle(
-                          color: theme.colorScheme.onBackground.withOpacity(
-                            0.7,
+                          color: theme.colorScheme.onSurface.withValues(
+                            alpha: 0.7,
                           ),
                         ),
                       ),
@@ -358,13 +366,13 @@ class SocialSignInButton extends StatelessWidget {
   final String label;
 
   const SocialSignInButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.backgroundColor,
     required this.textColor,
     required this.iconWidget,
     required this.label,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
