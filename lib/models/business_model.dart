@@ -1,67 +1,69 @@
+// lib/models/business_model.dart
+import 'service_model.dart'; // Import ServiceModel
+import 'review_model.dart'; // Import ReviewModel
+
 class BusinessModel {
-  String? id;
-  String? name;
-  String? description;
-  String? address;
-  String? phoneNumber;
-  String? email;
-  String? website;
-  String? logoUrl;
-  String? coverImageUrl;
-  List<String>? categories;
-  List<String>? tags;
-  double? rating;
-  int? reviewCount;
+  final String id; // Unique identifier
+  final String name;
+  final String tagline;
+  final String location;
+  final String? imageUrl; // Optional image URL for hero/avatar
+  final double rating;
+  final int reviewCount;
+  final String about; // About Us text
+  final List<String> features; // List of feature strings (e.g., 'Open Daily')
+  final List<ServiceModel> services;
+  final List<ReviewModel> reviews;
 
   BusinessModel({
-    this.id,
-    this.name,
-    this.description,
-    this.address,
-    this.phoneNumber,
-    this.email,
-    this.website,
-    this.logoUrl,
-    this.coverImageUrl,
-    this.categories,
-    this.tags,
-    this.rating,
-    this.reviewCount,
+    required this.id,
+    required this.name,
+    required this.tagline,
+    required this.location,
+    this.imageUrl,
+    required this.rating,
+    required this.reviewCount,
+    required this.about,
+    required this.features,
+    required this.services,
+    required this.reviews,
   });
-  BusinessModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    description = json['description'];
-    address = json['address'];
-    phoneNumber = json['phone_number'];
-    email = json['email'];
-    website = json['website'];
-    logoUrl = json['logo_url'];
-    coverImageUrl = json['cover_image_url'];
-    categories = List<String>.from(json['categories'] ?? []);
-    tags = List<String>.from(json['tags'] ?? []);
-    rating = (json['rating'] as num?)?.toDouble();
-    reviewCount = json['review_count'];
+
+  // Factory constructor to create from JSON/Map
+  factory BusinessModel.fromJson(Map<String, dynamic> json) {
+    return BusinessModel(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      tagline: json['tagline'] as String,
+      location: json['location'] as String,
+      imageUrl: json['imageUrl'] as String?,
+      rating: (json['rating'] as num).toDouble(),
+      reviewCount: json['reviewCount'] as int,
+      about: json['about'] as String,
+      features: List<String>.from(json['features'] as List), // Assuming features is a List of strings
+      services: (json['services'] as List)
+          .map((serviceJson) => ServiceModel.fromJson(serviceJson as Map<String, dynamic>))
+          .toList(),
+      reviews: (json['reviews'] as List)
+          .map((reviewJson) => ReviewModel.fromJson(reviewJson as Map<String, dynamic>))
+          .toList(),
+    );
   }
+
+  // Method to convert to JSON/Map
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'name': name,
-      'description': description,
-      'address': address,
-      'phone_number': phoneNumber,
-      'email': email,
-      'website': website,
-      'logo_url': logoUrl,
-      'cover_image_url': coverImageUrl,
-      'categories': categories,
-      'tags': tags,
+      'tagline': tagline,
+      'location': location,
+      'imageUrl': imageUrl,
       'rating': rating,
-      'review_count': reviewCount,
+      'reviewCount': reviewCount,
+      'about': about,
+      'features': features,
+      'services': services.map((service) => service.toJson()).toList(),
+      'reviews': reviews.map((review) => review.toJson()).toList(),
     };
-  }
-  @override
-  String toString() {
-    return 'BusinessModel{id: $id, name: $name, description: $description, address: $address, phoneNumber: $phoneNumber, email: $email, website: $website, logoUrl: $logoUrl, coverImageUrl: $coverImageUrl, categories: $categories, tags: $tags, rating: $rating, reviewCount: $reviewCount}';
   }
 }

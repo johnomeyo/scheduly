@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:scheduly/models/business.dart';
-import 'package:scheduly/pages/business_details_page.dart';
+import 'package:scheduly/models/business_model.dart';
+import 'package:scheduly/pages/business_details_page/business_details_page.dart';
 
 class AllPopularBusinessesPage extends StatefulWidget {
-  final List<Business> businesses;
+  final List<BusinessModel> businesses;
 
   const AllPopularBusinessesPage({
     super.key,
@@ -17,7 +17,7 @@ class AllPopularBusinessesPage extends StatefulWidget {
 class _AllPopularBusinessesPageState extends State<AllPopularBusinessesPage> {
   String _selectedCategory = 'All';
   String _searchQuery = '';
-  List<Business> _filteredBusinesses = [];
+  List<BusinessModel> _filteredBusinesses = [];
   
   @override
   void initState() {
@@ -30,12 +30,12 @@ class _AllPopularBusinessesPageState extends State<AllPopularBusinessesPage> {
       _filteredBusinesses = widget.businesses.where((business) {
         // Apply category filter
         bool categoryMatch = _selectedCategory == 'All' || 
-                            business.category == _selectedCategory;
+                            business.tagline == _selectedCategory;
         
         // Apply search filter
         bool searchMatch = _searchQuery.isEmpty ||
             business.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-            business.address.toLowerCase().contains(_searchQuery.toLowerCase());
+            business.location.toLowerCase().contains(_searchQuery.toLowerCase());
         
         return categoryMatch && searchMatch;
       }).toList();
@@ -44,7 +44,7 @@ class _AllPopularBusinessesPageState extends State<AllPopularBusinessesPage> {
 
   List<String> _getCategories() {
     final categories = widget.businesses
-        .map((business) => business.category)
+        .map((business) => business.tagline)
         .toSet()
         .toList();
     
@@ -74,14 +74,14 @@ class _AllPopularBusinessesPageState extends State<AllPopularBusinessesPage> {
     }
   }
 
-  void _viewBusinessDetails(Business business) {
+  void _viewBusinessDetails(BusinessModel business) {
     // Navigate to business details
    Navigator.push(context, MaterialPageRoute(builder: (context)=>
-     BusinessDetailsPage(),
+     BusinessDetailsPage(business: business,),
     ));
   }
 
-  Widget _buildBusinessCard(ThemeData theme, Business business) {
+  Widget _buildBusinessCard(ThemeData theme, BusinessModel business) {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       elevation: 0,
@@ -105,9 +105,9 @@ class _AllPopularBusinessesPageState extends State<AllPopularBusinessesPage> {
                 child: Container(
                   width: 80,
                   height: 80,
-                  color: theme.colorScheme.primary.withOpacity(0.1),
+                  color: theme.colorScheme.primary.withValues(alpha: 0.1),
                   child: Icon(
-                    _getCategoryIcon(business.category),
+                    _getCategoryIcon(business.tagline),
                     color: theme.colorScheme.primary,
                     size: 32,
                   ),
@@ -128,7 +128,7 @@ class _AllPopularBusinessesPageState extends State<AllPopularBusinessesPage> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      business.category,
+                      business.tagline,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.primary,
                       ),
@@ -144,7 +144,10 @@ class _AllPopularBusinessesPageState extends State<AllPopularBusinessesPage> {
                         const SizedBox(width: 4),
                         Expanded(
                           child: Text(
-                            '${business.address} • ${business.distance} km',
+                            //we should calculate the distance from the user location
+                            // to the business location
+                            // for now we will use a static value
+                            '${business.location} • 1 km',
                             style: theme.textTheme.bodySmall?.copyWith(
                               color: theme.colorScheme.onSurface.withOpacity(0.6),
                             ),

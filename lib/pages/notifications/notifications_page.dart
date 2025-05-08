@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scheduly/pages/notifications/widgets/notification_tile.dart';
 
 class NotificationsPage extends StatelessWidget {
   const NotificationsPage({super.key});
@@ -39,7 +40,7 @@ class NotificationsPage extends StatelessWidget {
         separatorBuilder: (_, __) => const SizedBox(height: 12),
         itemBuilder: (context, index) {
           final notification = notifications[index];
-          return _NotificationTile(
+          return NotificationTile(
             title: notification['title'] as String,
             body: notification['body'] as String,
             icon: notification['icon'] as IconData,
@@ -47,49 +48,6 @@ class NotificationsPage extends StatelessWidget {
             theme: theme,
           );
         },
-      ),
-    );
-  }
-}
-
-class _NotificationTile extends StatelessWidget {
-  final String title;
-  final String body;
-  final IconData icon;
-  final String time;
-  final ThemeData theme;
-
-  const _NotificationTile({
-    required this.title,
-    required this.body,
-    required this.icon,
-    required this.time,
-    required this.theme,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 0.5,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.1),
-          child: Icon(icon, color: theme.colorScheme.primary),
-        ),
-        title: Text(title, style: theme.textTheme.titleMedium),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(body, style: theme.textTheme.bodySmall),
-            const SizedBox(height: 4),
-            Text(time,
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
-                )),
-          ],
-        ),
-        isThreeLine: true,
       ),
     );
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scheduly/pages/notifications_page.dart';
+import 'package:scheduly/pages/notifications/notifications_page.dart';
 
 class HomeHeaderSection extends StatefulWidget {
   const HomeHeaderSection({super.key});
@@ -61,7 +61,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                     Text(
                       'Good morning,',
                       style: theme.textTheme.bodyLarge?.copyWith(
-                        color: theme.colorScheme.onSurface.withOpacity(0.7),
+                        color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -123,7 +123,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                           backgroundColor: theme.colorScheme.surface,
                           side: BorderSide(
                             color:
-                                theme.colorScheme.outline.withOpacity(0.3),
+                                theme.colorScheme.outline.withValues(alpha: 0.3),
                           ),
                         ),
                       )

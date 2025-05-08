@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:scheduly/constants/data.dart';
-import 'package:scheduly/models/business.dart';
-import 'package:scheduly/pages/business_details_page.dart';
-import 'package:scheduly/pages/homepage/featured_services_section.dart';
-import 'package:scheduly/pages/homepage/home_header_section.dart';
-import 'package:scheduly/pages/homepage/next_appointement_section.dart';
-import 'package:scheduly/pages/homepage/special_offer_section.dart';
+import 'package:scheduly/models/business_model.dart';
+import 'package:scheduly/pages/business_details_page/business_details_page.dart';
+import 'package:scheduly/pages/homepage/widgets/home_header_section.dart';
+import 'package:scheduly/pages/homepage/widgets/next_appointement_section.dart';
+import 'package:scheduly/pages/homepage/widgets/special_offer_section.dart';
 import 'package:scheduly/pages/popular_business_page.dart'
     show AllPopularBusinessesPage;
-import 'package:scheduly/pages/service_bookings_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -45,18 +43,16 @@ class _HomePageState extends State<HomePage> {
             ),
 
             // // Category Services Cards
-            FeaturedServicesSection(
-              services: services,
-              onServiceTap:
-                  (service) => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder:
-                          (_) =>
-                              ServiceDetailsAndBookingsPage(service: service),
-                    ),
-                  ),
-            ),
+            // FeaturedServicesSection(
+            //   services: services,
+            //   onServiceTap:
+            //       (service) => Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //           builder: (_) => ServiceDetailsAndBookingsPage(),
+            //         ),
+            //       ),
+            // ),
 
             // Popular Near You
             SliverToBoxAdapter(
@@ -81,7 +77,7 @@ class _HomePageState extends State<HomePage> {
             ),
             SliverList(
               delegate: SliverChildBuilderDelegate((context, index) {
-                return _buildBusinessCard(theme, popularBusinesses[index]);
+                return _buildBusinessCard(theme, sampleBusiness[index]);
               }, childCount: popularBusinesses.length),
             ),
 
@@ -99,7 +95,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    const SpecialOfferCard(),
+                    //we use this sampleBusiness[0] to show thebbusiness that has the special offer
+                    // in a real app you would fetch the special offer from the server
+                    SpecialOfferCard(business: sampleBusiness[0]),
                     const SizedBox(height: 32),
                   ],
                 ),
@@ -111,7 +109,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildBusinessCard(ThemeData theme, Business business) {
+  Widget _buildBusinessCard(ThemeData theme, BusinessModel business) {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       elevation: 0,
@@ -136,10 +134,16 @@ class _HomePageState extends State<HomePage> {
                   width: 80,
                   height: 80,
                   color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                  child: Icon(
-                    _getCategoryIcon(business.category),
-                    color: theme.colorScheme.primary,
-                    size: 32,
+                  child: Image.network(
+                    business.imageUrl ??"https://example.com/default-image.jpg",
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Icon(
+                        _getCategoryIcon(business.tagline),
+                        color: theme.colorScheme.primary,
+                        size: 32,
+                      );
+                    },
                   ),
                 ),
               ),
@@ -158,7 +162,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      business.category,
+                      business.tagline,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.primary,
                       ),
@@ -176,7 +180,9 @@ class _HomePageState extends State<HomePage> {
                         const SizedBox(width: 4),
                         Expanded(
                           child: Text(
-                            '${business.address} • ${business.distance} mi',
+                            //we calculate distance in miles
+                            // this is a placeholder, in a real app you would calculate the distance based on the user's location
+                            '${business.location} • 1 mi',
                             style: theme.textTheme.bodySmall?.copyWith(
                               color: theme.colorScheme.onSurface.withValues(
                                 alpha: 0.6,
@@ -225,18 +231,19 @@ class _HomePageState extends State<HomePage> {
       context,
       MaterialPageRoute(
         builder:
-            (context) =>
-                AllPopularBusinessesPage(businesses: popularBusinesses),
+            (context) => AllPopularBusinessesPage(businesses: sampleBusiness),
       ),
     );
   }
 
-  void _viewBusinessDetails(Business business) {
+  void _viewBusinessDetails(BusinessModel business) {
     // Navigate to business details
     // Navigate to business details
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => BusinessDetailsPage()),
+      MaterialPageRoute(
+        builder: (context) => BusinessDetailsPage(business: business),
+      ),
     );
   }
 

@@ -1,7 +1,12 @@
+
 import 'package:flutter/material.dart';
-import 'package:scheduly/mainscreen.dart';
-import 'package:scheduly/pages/auth/forgot_password_page.dart'
-    show ForgotPasswordPage;
+import 'package:scheduly/mainscreen.dart'; 
+import 'package:scheduly/pages/auth/forgot_password_page.dart'; 
+import 'package:scheduly/pages/auth/widgets/social_signin_btn.dart'; 
+import 'widgets/auth_title_section.dart';
+import 'widgets/auth_form_section.dart';
+import 'widgets/or_divider.dart';
+import 'widgets/auth_mode_toggle_row.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -30,41 +35,90 @@ class _AuthPageState extends State<AuthPage> {
   void _toggleAuthMode() {
     setState(() {
       _isLogin = !_isLogin;
+      // Clear controllers when switching modes
+      _emailController.clear();
+      _passwordController.clear();
+      _usernameController.clear();
+      _formKey.currentState?.reset(); // Reset form validation state
     });
   }
 
-  void _submitForm() {
+  void _togglePasswordVisibility() {
+    setState(() {
+      _isPasswordVisible = !_isPasswordVisible;
+    });
+  }
+
+  Future<void> _submitForm() async {
+    // Added async here because authentication is typically an async operation
     if (_formKey.currentState?.validate() ?? false) {
       setState(() {
         _isLoading = true;
       });
 
-      // Simulate authentication process
-      Future.delayed(const Duration(seconds: 2), () {
-        setState(() {
-          _isLoading = false;
-        });
+      try {
+        // Simulate authentication process
+        await Future.delayed(const Duration(seconds: 2)); // Use await
 
-        // ignore: use_build_context_synchronously
+        // --- Replace with your actual authentication logic ---
+        // If login: await AuthService().login(_emailController.text, _passwordController.text);
+        // If signup: await AuthService().signup(_emailController.text, _passwordController.text, _usernameController.text);
+        // Handle success and errors from your auth service
+
+        // On success:
+        if (!mounted) return; // Check if widget is still mounted before showing SnackBar/navigating
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
               _isLogin ? 'Login successful!' : 'Signup successful!',
             ),
             backgroundColor: Colors.green,
+            duration: const Duration(seconds: 2), // Shorter duration
           ),
         );
-      });
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const MainScreen()),
-      );
+
+        // Navigate after successful authentication
+        // Using pushReplacement to prevent going back to auth page
+        Navigator.pushReplacement(
+           context,
+           MaterialPageRoute(builder: (context) => const MainScreen()),
+        );
+
+      } catch (e) {
+        // Handle authentication errors
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Authentication failed: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      } finally {
+        // Ensure loading state is reset even if an error occurs
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
+      }
     }
   }
 
+  // Callback for Forgot Password navigation - keeps navigation logic higher up
+  void _navigateToForgotPassword() {
+     Navigator.push(
+        context,
+        MaterialPageRoute(
+         builder: (context) => const ForgotPasswordPage(),
+        ),
+      );
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    // final theme = Theme.of(context); // Theme can be accessed in individual widgets if needed
 
     return Scaffold(
       body: SafeArea(
@@ -76,223 +130,51 @@ class _AuthPageState extends State<AuthPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Title and subtitle
-                  Column(
-                    children: [
-                      Icon(
-                        Icons.lock_outline,
-                        size: 80,
-                        color: theme.primaryColor,
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        _isLogin ? 'Welcome Back' : 'Create Account',
-                        style: theme.textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        _isLogin
-                            ? 'Sign in to continue'
-                            : 'Sign up to get started',
-                        style: theme.textTheme.bodyLarge?.copyWith(
-                          color: theme.colorScheme.onSurface.withValues(
-                            alpha: 0.7,
-                          ),
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
+                  // Extracted Title and subtitle section
+                  AuthTitleSection(isLogin: _isLogin),
+
                   const SizedBox(height: 32),
 
-                  // Form
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        // Username field (only in signup mode)
-                        if (!_isLogin) ...[
-                          TextFormField(
-                            controller: _usernameController,
-                            decoration: const InputDecoration(
-                              labelText: 'Username',
-                              prefixIcon: Icon(Icons.person_outline),
-                            ),
-                            keyboardType: TextInputType.name,
-                            textInputAction: TextInputAction.next,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter a username';
-                              } else if (value.length < 3) {
-                                return 'Username must be at least 3 characters';
-                              }
-                              return null;
-                            },
-                          ),
-                          const SizedBox(height: 16),
-                        ],
-
-                        // Email field
-                        TextFormField(
-                          controller: _emailController,
-                          decoration: const InputDecoration(
-                            labelText: 'Email',
-                            prefixIcon: Icon(Icons.email_outlined),
-                          ),
-                          keyboardType: TextInputType.emailAddress,
-                          textInputAction: TextInputAction.next,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter an email address';
-                            } else if (!RegExp(
-                              r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                            ).hasMatch(value)) {
-                              return 'Please enter a valid email address';
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 16),
-
-                        // Password field
-                        TextFormField(
-                          controller: _passwordController,
-                          decoration: InputDecoration(
-                            labelText: 'Password',
-                            prefixIcon: const Icon(Icons.lock_outline),
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                _isPasswordVisible
-                                    ? Icons.visibility_off_outlined
-                                    : Icons.visibility_outlined,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _isPasswordVisible = !_isPasswordVisible;
-                                });
-                              },
-                            ),
-                          ),
-                          obscureText: !_isPasswordVisible,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter a password';
-                            } else if (!_isLogin && value.length < 6) {
-                              return 'Password must be at least 6 characters';
-                            }
-                            return null;
-                          },
-                          textInputAction: TextInputAction.done,
-                        ),
-
-                        // Forgot password (only in login mode)
-                        if (_isLogin) ...[
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: TextButton(
-                              onPressed: () {
-                                // Forgot Navigate to Forgot Password Page
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder:
-                                        (context) => const ForgotPasswordPage(),
-                                  ),
-                                );
-                              },
-                              child: const Text('Forgot Password?'),
-                            ),
-                          ),
-                        ],
-
-                        const SizedBox(height: 24),
-
-                        // Submit button
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: _isLoading ? null : _submitForm,
-                            child:
-                                _isLoading
-                                    ? SizedBox(
-                                      height: 20,
-                                      width: 20,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        color: theme.colorScheme.onPrimary,
-                                      ),
-                                    )
-                                    : Text(
-                                      _isLogin ? 'LOGIN' : 'SIGN UP',
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                          ),
-                        ),
-                      ],
-                    ),
+                  // Extracted Form section
+                  AuthFormSection(
+                    formKey: _formKey,
+                    emailController: _emailController,
+                    passwordController: _passwordController,
+                    usernameController: _usernameController,
+                    isLogin: _isLogin,
+                    isLoading: _isLoading,
+                    isPasswordVisible: _isPasswordVisible,
+                    onSubmit: _submitForm,
+                    onPasswordVisibilityToggle: _togglePasswordVisibility,
+                    onForgotPassword: _navigateToForgotPassword, // Pass callback
                   ),
 
                   const SizedBox(height: 24),
 
-                  // OR divider
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Divider(
-                          color: theme.colorScheme.onSurface.withValues(
-                            alpha: 0.3,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Text(
-                          'OR',
-                          style: TextStyle(
-                            color: theme.colorScheme.onSurface.withValues(
-                              alpha: 0.5,
-                            ),
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Divider(
-                          color: theme.colorScheme.onSurface.withValues(
-                            alpha: 0.3,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  const OrDivider(),
 
                   const SizedBox(height: 24),
 
-                  // Social sign-in buttons
+                  // Social sign-in buttons 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       // Google
                       SocialSignInButton(
                         onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                'Google Sign-In would be implemented here',
-                              ),
-                            ),
-                          );
+                           if (!mounted) return;
+                           ScaffoldMessenger.of(context).showSnackBar(
+                             const SnackBar(
+                               content: Text(
+                                 'Google Sign-In would be implemented here',
+                               ),
+                             ),
+                           );
                         },
                         backgroundColor: Colors.white,
                         textColor: Colors.black87,
                         iconWidget: Image.network(
-                          'https://img.icons8.com/?size=100&id=17949&format=png&color=000000',
+                          'https://img.icons8.com/?size=100&id=17949&format=png&color=000000', // Consider caching this image or using an asset
                           height: 24,
                           width: 24,
                         ),
@@ -302,7 +184,8 @@ class _AuthPageState extends State<AuthPage> {
                       // Apple
                       SocialSignInButton(
                         onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
+                           if (!mounted) return;
+                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text(
                                 'Apple Sign-In would be implemented here',
@@ -324,75 +207,14 @@ class _AuthPageState extends State<AuthPage> {
 
                   const SizedBox(height: 32),
 
-                  // Toggle between login and signup
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        _isLogin
-                            ? 'Don\'t have an account?'
-                            : 'Already have an account?',
-                        style: TextStyle(
-                          color: theme.colorScheme.onSurface.withValues(
-                            alpha: 0.7,
-                          ),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: _toggleAuthMode,
-                        child: Text(
-                          _isLogin ? 'Sign Up' : 'Login',
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
+                  // Extracted Toggle between login and signup
+                  AuthModeToggleRow(
+                    isLogin: _isLogin,
+                    onToggleMode: _toggleAuthMode,
                   ),
                 ],
               ),
             ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// Social sign-in button widget
-class SocialSignInButton extends StatelessWidget {
-  final VoidCallback onPressed;
-  final Color backgroundColor;
-  final Color textColor;
-  final Widget iconWidget;
-  final String label;
-
-  const SocialSignInButton({
-    super.key,
-    required this.onPressed,
-    required this.backgroundColor,
-    required this.textColor,
-    required this.iconWidget,
-    required this.label,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: ElevatedButton(
-          onPressed: onPressed,
-          style: ElevatedButton.styleFrom(
-            foregroundColor: textColor,
-            backgroundColor: backgroundColor,
-            padding: const EdgeInsets.symmetric(vertical: 12),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              iconWidget,
-              const SizedBox(width: 8),
-              Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
-            ],
           ),
         ),
       ),

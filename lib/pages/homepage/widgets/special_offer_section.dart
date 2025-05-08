@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:scheduly/pages/business_details_page.dart';
+import 'package:scheduly/models/business_model.dart';
+import 'package:scheduly/pages/business_details_page/business_details_page.dart';
 
 class SpecialOfferCard extends StatelessWidget {
-  const SpecialOfferCard({super.key});
+  final BusinessModel business;
+  const SpecialOfferCard({super.key, required this.business});
 
   void _bookNow(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => const BusinessDetailsPage()),
+      MaterialPageRoute(
+        builder: (_) => BusinessDetailsPage(business: business),
+      ),
     );
   }
 
