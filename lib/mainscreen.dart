@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scheduly/pages/bookings_page.dart';
+import 'package:scheduly/pages/bookings_page/bookings_page.dart';
 import 'package:scheduly/pages/homepage/homepage.dart';
 import 'package:scheduly/pages/profile_page/profile_page.dart';
 
