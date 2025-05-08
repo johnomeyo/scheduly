@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:scheduly/models/business.dart';
+import 'package:scheduly/models/booking_model.dart';
 
 class ReschedulePage extends StatefulWidget {
   final Booking booking;

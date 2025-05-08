@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:scheduly/models/business.dart';
+import 'package:scheduly/models/booking_model.dart';
 
 // Import the new modular widgets
 import './booking_status_chip.dart';
@@ -53,8 +53,6 @@ class BookingCard extends StatelessWidget {
 
     return Card(
       margin: const EdgeInsets.only(bottom: 16.0),
-      shadowColor: theme.colorScheme.shadow.withValues(alpha: 0.08),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12.0),

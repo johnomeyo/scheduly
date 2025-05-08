@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:scheduly/models/business.dart';
+import 'package:scheduly/models/booking_model.dart';
 import 'package:scheduly/pages/booking_details_page/widgets/details_row.dart';
 import 'package:scheduly/pages/booking_details_page/widgets/details_section.dart';
 import 'package:scheduly/pages/booking_details_page/widgets/service_eader.dart';

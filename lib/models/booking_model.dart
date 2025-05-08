@@ -42,24 +42,4 @@ class Service {
   });
 }
 
-class Business {
-  final String id;
-  final String name;
-  final String category;
-  final String address;
-  final double distance;
-  final double rating;
-  final int reviewCount;
-  final String imageUrl;
 
-  Business({
-    required this.id,
-    required this.name,
-    required this.category,
-    required this.address,
-    required this.distance,
-    required this.rating,
-    required this.reviewCount,
-    required this.imageUrl,
-  });
-}

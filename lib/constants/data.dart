@@ -1,4 +1,4 @@
-import 'package:scheduly/models/business.dart';
+import 'package:scheduly/models/booking_model.dart';
 import 'package:scheduly/models/business_model.dart';
 import 'package:scheduly/models/review_model.dart';
 import 'package:scheduly/models/service_model.dart';
@@ -28,41 +28,6 @@ final List<ServiceModel> services = [
         'Essential oil therapy to improve physical and emotional well-being.',
   ),
 ];
-// Mock data for popular businesses
-final List<Business> popularBusinesses = [
-  Business(
-    id: '1',
-    name: 'Wellness Spa Center',
-    category: 'Spa & Massage',
-    address: '123 Relaxation Ave',
-    distance: 1.2,
-    rating: 4.9,
-    reviewCount: 324,
-    imageUrl: 'https://example.com/wellness-spa.jpg',
-  ),
-  Business(
-    id: '2',
-    name: 'Modern Hair Studio',
-    category: 'Hair & Beauty',
-    address: '456 Style St',
-    distance: 0.8,
-    rating: 4.7,
-    reviewCount: 215,
-    imageUrl:
-        'https://i.pinimg.com/736x/ec/e2/8a/ece28abe4a13dcefbf7f856e45b0a810.jpg',
-  ),
-  Business(
-    id: '3',
-    name: 'Elite Fitness Center',
-    category: 'Fitness & Training',
-    address: '789 Muscle Road',
-    distance: 2.5,
-    rating: 4.8,
-    reviewCount: 178,
-    imageUrl:
-        'https://marketplace.canva.com/EAFxdcos7WU/1/0/1600w/canva-dark-blue-and-brown-illustrative-fitness-gym-logo-oqe3ybeEcQQ.jpg',
-  ),
-];
 
 // Mock data for recent searches
 final List<String> recentSearches = [
@@ -90,8 +55,28 @@ final List<Booking> upcomingBookings = [
     date: DateTime.now().add(const Duration(days: 5)),
     timeSlot: '2:30 PM - 3:30 PM',
     price: 75.00,
-    status: BookingStatus.confirmed,
+    status: BookingStatus.pending,
     imageUrl: 'https://example.com/spa.jpg',
+  ),
+  Booking(
+    id: '3',
+    serviceName: 'Manicure & Pedicure',
+    businessName: 'Nail Bliss Studio',
+    date: DateTime.now().add(const Duration(days: 3)),
+    timeSlot: '1:00 PM - 2:00 PM',
+    price: 35.00,
+    status: BookingStatus.cancelled,
+    imageUrl: 'https://example.com/nailstudio.jpg',
+  ),
+  Booking(
+    id: '4',
+    serviceName: 'Facial Treatment',
+    businessName: 'Glow Skincare Lounge',
+    date: DateTime.now().add(const Duration(days: 7)),
+    timeSlot: '11:30 AM - 12:30 PM',
+    price: 60.00,
+    status: BookingStatus.confirmed,
+    imageUrl: 'https://example.com/skincare.jpg',
   ),
 ];
 final List<Booking> pastBookings = [

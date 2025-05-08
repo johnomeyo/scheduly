@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
             SliverList(
               delegate: SliverChildBuilderDelegate((context, index) {
                 return _buildBusinessCard(theme, sampleBusiness[index]);
-              }, childCount: popularBusinesses.length),
+              }, childCount: sampleBusiness.length),
             ),
 
             // Special Offers

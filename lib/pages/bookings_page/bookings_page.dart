@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:scheduly/constants/data.dart'; // For example data
-import 'package:scheduly/models/business.dart' show Booking;
+import 'package:scheduly/models/booking_model.dart' show Booking;
 import 'package:scheduly/pages/booking_details_page/booking_details_page.dart';
 import 'package:scheduly/pages/bookings_page/widgets/empty_booking_state.dart';
 import 'package:scheduly/pages/reschedule_page.dart';
