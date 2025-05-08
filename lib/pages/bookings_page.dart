@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:scheduly/constants/data.dart';
 import 'package:scheduly/models/business.dart';
-import 'package:scheduly/pages/booking_details_page.dart';
+import 'package:scheduly/pages/booking_details_page/booking_details_page.dart';
 import 'package:scheduly/pages/reschedule_page.dart';
 
 class BookingsPage extends StatefulWidget {
