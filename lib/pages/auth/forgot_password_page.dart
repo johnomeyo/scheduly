@@ -212,7 +212,7 @@ class ForgotPasswordPageState extends State<ForgotPasswordPage> {
               foregroundColor: theme.colorScheme.primary,
             ),
             child: Text(
-              'Back to Login',
+              'Back',
               style: theme.textTheme.bodyLarge?.copyWith(
                 color: theme.colorScheme.primary,
                 fontWeight: FontWeight.w600,

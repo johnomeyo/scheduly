@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:scheduly/models/business.dart';
+import 'package:scheduly/pages/reschedule_page.dart' show ReschedulePage;
 
 class BookingDetailsPage extends StatelessWidget {
   final Booking booking;
   final DateFormat dateFormat = DateFormat('EEEE, MMMM d, yyyy');
 
-  BookingDetailsPage({
-    super.key,
-    required this.booking,
-  });
+  BookingDetailsPage({super.key, required this.booking});
 
   IconData _getServiceIcon(String serviceName) {
     switch (serviceName.toLowerCase()) {
@@ -27,12 +25,9 @@ class BookingDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Booking Details'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Booking Details'), centerTitle: true),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +38,7 @@ class BookingDetailsPage extends StatelessWidget {
               icon: _getServiceIcon(booking.serviceName),
               theme: theme,
             ),
-            
+
             // Booking details
             Padding(
               padding: const EdgeInsets.all(16),
@@ -80,9 +75,9 @@ class BookingDetailsPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  
+
                   const SizedBox(height: 24),
-                  
+
                   // Action buttons
                   Row(
                     children: [
@@ -97,8 +92,14 @@ class BookingDetailsPage extends StatelessWidget {
                       Expanded(
                         child: ElevatedButton.icon(
                           onPressed: () {
-                            Navigator.pop(context);
-                            // You might want to add navigation to reschedule page here
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder:
+                                    (context) =>
+                                        ReschedulePage(booking: booking),
+                              ),
+                            );
                           },
                           icon: const Icon(Icons.edit_calendar),
                           label: const Text('Reschedule'),
@@ -110,9 +111,9 @@ class BookingDetailsPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  
+
                   const SizedBox(height: 16),
-                  
+
                   // Cancel button
                   SizedBox(
                     width: double.infinity,
@@ -139,43 +140,44 @@ class BookingDetailsPage extends StatelessWidget {
 
   void _showCancelConfirmation(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Cancel Appointment?'),
-        content: Text(
-          'Are you sure you want to cancel your ${booking.serviceName} appointment on ${dateFormat.format(booking.date)} at ${booking.timeSlot.split(' - ').first}?',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(
-              'Keep Appointment',
-              style: TextStyle(color: theme.colorScheme.primary),
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Cancel Appointment?'),
+            content: Text(
+              'Are you sure you want to cancel your ${booking.serviceName} appointment on ${dateFormat.format(booking.date)} at ${booking.timeSlot.split(' - ').first}?',
             ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              // Implement cancellation logic here
-              Navigator.pop(context); // Close dialog
-              Navigator.pop(context); // Go back to previous screen
-              
-              // Show cancellation confirmation
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Appointment cancelled successfully'),
-                  behavior: SnackBarBehavior.floating,
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  'Keep Appointment',
+                  style: TextStyle(color: theme.colorScheme.primary),
                 ),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: theme.colorScheme.error,
-            ),
-            child: const Text('Cancel Appointment'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // Implement cancellation logic here
+                  Navigator.pop(context); // Close dialog
+                  Navigator.pop(context); // Go back to previous screen
+
+                  // Show cancellation confirmation
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Appointment cancelled successfully'),
+                      behavior: SnackBarBehavior.floating,
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: theme.colorScheme.error,
+                ),
+                child: const Text('Cancel Appointment'),
+              ),
+            ],
           ),
-        ],
-      ),
     );
   }
 }
@@ -197,23 +199,17 @@ class ServiceHeader extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.primary,
-      ),
+      decoration: BoxDecoration(color: theme.colorScheme.primary),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: theme.colorScheme.onPrimary.withValues(alpha:0.2),
+              color: theme.colorScheme.onPrimary.withValues(alpha: 0.2),
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              icon,
-              size: 48,
-              color: theme.colorScheme.onPrimary,
-            ),
+            child: Icon(icon, size: 48, color: theme.colorScheme.onPrimary),
           ),
           const SizedBox(height: 16),
           Text(
@@ -233,16 +229,12 @@ class DetailSection extends StatelessWidget {
   final String title;
   final List<Widget> children;
 
-  const DetailSection({
-    super.key,
-    required this.title,
-    required this.children,
-  });
+  const DetailSection({super.key, required this.title, required this.children});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -255,15 +247,15 @@ class DetailSection extends StatelessWidget {
         const SizedBox(height: 8),
         Card(
           elevation: 0,
-          color: theme.colorScheme.surfaceContainerHighest.withValues(alpha:0.3),
+          color: theme.colorScheme.surfaceContainerHighest.withValues(
+            alpha: 0.3,
+          ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
           child: Padding(
             padding: const EdgeInsets.all(16),
-            child: Column(
-              children: children,
-            ),
+            child: Column(children: children),
           ),
         ),
       ],
@@ -286,16 +278,12 @@ class DetailRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         children: [
-          Icon(
-            icon,
-            size: 20,
-            color: theme.colorScheme.primary,
-          ),
+          Icon(icon, size: 20, color: theme.colorScheme.primary),
           const SizedBox(width: 12),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

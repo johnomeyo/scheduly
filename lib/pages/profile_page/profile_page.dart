@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:scheduly/constants/data.dart' show userData;
+import 'package:scheduly/pages/auth/forgot_password_page.dart'
+    show ForgotPasswordPage;
+import 'package:scheduly/pages/profile_page/nested_pages/privacy_settings_page.dart';
 import 'package:scheduly/pages/profile_page/widgets/profile_support_section.dart'
     show SupportSection;
 import 'package:scheduly/pages/profile_page/widgets/logout_btn.dart';
@@ -87,7 +90,7 @@ class _ProfilePageState extends State<ProfilePage> {
             SupportSection(),
             const SizedBox(height: 24),
             // Logout button
-            LogoutButtonWidget(onLogout: ()=>_logout(context)),
+            LogoutButtonWidget(onLogout: () => _logout(context)),
             const SizedBox(height: 32),
           ],
         ),
@@ -111,50 +114,56 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-
-
-
   // Action methods
   void _editProfile() {
     // Navigate to edit profile page
   }
-void _logout(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: const Text('Log Out'),
-      content: const Text('Are you sure you want to log out?'),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(), // Cancel
-          child: const Text('Cancel'),
-        ),
-        FilledButton(
-          onPressed: () {
-            Navigator.of(context).pop(); // Close the dialog
-
-            // Here you can also clear auth state or navigate to login
-
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Logged out successfully'),
-                duration: Duration(seconds: 2),
+  void _logout(BuildContext context) {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Log Out'),
+            content: const Text('Are you sure you want to log out?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(), // Cancel
+                child: const Text('Cancel'),
               ),
-            );
-          },
-          child: const Text('Log Out'),
-        ),
-      ],
-    ),
-  );
-}
+              FilledButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+
+                  // Here you can also clear auth state or navigate to login
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Logged out successfully'),
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                },
+                child: const Text('Log Out'),
+              ),
+            ],
+          ),
+    );
+  }
 
   void _navigateToPrivacySettings() {
     // Navigate to privacy settings page
+        Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const PrivacySettingsPage()),
+    );
   }
 
   void _changePassword() {
     // Show change password dialog or navigate to change password page
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ForgotPasswordPage()),
+    );
   }
 
   void _addPaymentMethod() {
@@ -163,7 +172,5 @@ void _logout(BuildContext context) {
 
   void _showPaymentMethodOptions(Map<String, dynamic> paymentMethod) {
     // Show bottom sheet with payment method options
-
   }
-
 }
