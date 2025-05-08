@@ -6,7 +6,7 @@ import 'package:scheduly/pages/business_details_page/business_details_page.dart'
 import 'package:scheduly/pages/homepage/widgets/home_header_section.dart';
 import 'package:scheduly/pages/homepage/widgets/next_appointement_section.dart';
 import 'package:scheduly/pages/homepage/widgets/special_offer_section.dart';
-import 'package:scheduly/pages/popular_business_page.dart'
+import 'package:scheduly/pages/all_businesses_page/popular_business_page.dart'
     show AllPopularBusinessesPage;
 
 class HomePage extends StatefulWidget {
