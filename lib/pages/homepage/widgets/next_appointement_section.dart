@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:scheduly/models/booking_model.dart';
 import 'package:scheduly/pages/bookings_page/bookings_page.dart';
 import 'package:scheduly/pages/booking_details_page/booking_details_page.dart'; // New import for details page
-import 'package:scheduly/pages/reschedule_page.dart'; // New import for reschedule page
+import 'package:scheduly/pages/reschedule_page/reschedule_page.dart'; // New import for reschedule page
 class NextAppointmentSection extends StatelessWidget {
   final List<Booking> upcomingBookings;
   final DateFormat dateFormat;

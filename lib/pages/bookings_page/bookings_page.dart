@@ -6,7 +6,7 @@ import 'package:scheduly/constants/data.dart'; // For example data
 import 'package:scheduly/models/booking_model.dart' show Booking;
 import 'package:scheduly/pages/booking_details_page/booking_details_page.dart';
 import 'package:scheduly/pages/bookings_page/widgets/empty_booking_state.dart';
-import 'package:scheduly/pages/reschedule_page.dart';
+import 'package:scheduly/pages/reschedule_page/reschedule_page.dart';
 
 import 'widgets/booking_card.dart';
 
