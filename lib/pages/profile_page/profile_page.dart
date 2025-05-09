@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:scheduly/constants/data.dart' show userData;
 import 'package:scheduly/pages/auth/forgot_password_page.dart'
     show ForgotPasswordPage;
+import 'package:scheduly/pages/edit_profile_page/edit_profile_page.dart';
 import 'package:scheduly/pages/profile_page/nested_pages/privacy_settings_page.dart';
+import 'package:scheduly/pages/profile_page/widgets/add_payment_method_bottom_sheet.dart';
 import 'package:scheduly/pages/profile_page/widgets/profile_support_section.dart'
     show SupportSection;
 import 'package:scheduly/pages/profile_page/widgets/logout_btn.dart';
@@ -117,7 +119,16 @@ class _ProfilePageState extends State<ProfilePage> {
   // Action methods
   void _editProfile() {
     // Navigate to edit profile page
+    // Navigate to edit profile page
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const EditProfilePage()),
+    ).then((_) {
+      // Refresh the UI when returning from edit profile
+      setState(() {});
+    });
   }
+
   void _logout(BuildContext context) {
     showDialog(
       context: context,
@@ -152,7 +163,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void _navigateToPrivacySettings() {
     // Navigate to privacy settings page
-        Navigator.push(
+    Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const PrivacySettingsPage()),
     );
@@ -167,7 +178,28 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void _addPaymentMethod() {
-    // Navigate to add payment method page
+    // Show bottom sheet to add payment method
+    AddPaymentMethodBottomSheet.show(context, (newPaymentMethod) {
+      setState(() {
+        // If this is set as default, update existing payment methods
+        if (newPaymentMethod['isDefault'] == true) {
+          for (var method in userData['paymentMethods']) {
+            method['isDefault'] = false;
+          }
+        }
+
+        // Add the new payment method
+        userData['paymentMethods'].add(newPaymentMethod);
+      });
+
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Payment method added successfully'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    });
   }
 
   void _showPaymentMethodOptions(Map<String, dynamic> paymentMethod) {
