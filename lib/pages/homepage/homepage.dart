@@ -143,7 +143,7 @@ class _HomePageState extends State<HomePage> {
                   24,
                   16,
                   8,
-                ), // Hardcoded padding
+                ), 
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -184,7 +184,7 @@ class _HomePageState extends State<HomePage> {
             ),
             SliverToBoxAdapter(
               // Add some bottom padding
-              child: SizedBox(height: 16), // Hardcoded padding
+              child: SizedBox(height: 16), 
             ),
           ],
         ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:scheduly/constants/data.dart'; // For example data
 import 'package:scheduly/models/booking_model.dart' show Booking;
+import 'package:scheduly/pages/all_businesses_page/popular_business_page.dart';
 import 'package:scheduly/pages/booking_details_page/booking_details_page.dart';
 import 'package:scheduly/pages/bookings_page/widgets/empty_booking_state.dart';
 import 'package:scheduly/pages/reschedule_page/reschedule_page.dart';
@@ -127,7 +128,8 @@ class _BookingsPageState extends State<BookingsPage> with SingleTickerProviderSt
     setState(() {
       if (forUpcoming) {
         // Replace with actual data fetching logic
-        _upcomingBookings = List.from(upcomingBookings.where((b) => b.status != "Cancelled")); // Example re-fetch/filter
+        // ignore: unrelated_type_equality_checks
+        _upcomingBookings = List.from(upcomingBookings.where((b) => b.status != "Cancelled")); 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Upcoming bookings updated!"), duration: Duration(seconds: 1)),
         );
@@ -178,8 +180,8 @@ class _BookingsPageState extends State<BookingsPage> with SingleTickerProviderSt
 
   void _performBookingCancellation(Booking booking) {
     // Simulate API call for cancellation
-    print('Cancelling booking: ${booking.id}'); // Assuming Booking has an 'id'
-
+    // In a your app, you'd call your API to cancel the booking here.
+    // For this example, we'll just remove it from the list.
     if (!mounted) return;
     setState(() {
       // Update local lists. In a real app, you'd refetch or rely on state management.
@@ -233,6 +235,7 @@ class _BookingsPageState extends State<BookingsPage> with SingleTickerProviderSt
     if (pickedDate == null || !mounted) return;
 
     final TimeOfDay? pickedTime = await showTimePicker(
+      // ignore: use_build_context_synchronously
       context: pageContext,
       initialTime: TimeOfDay.fromDateTime(now.add(const Duration(hours: 1))),
     );
@@ -248,7 +251,6 @@ class _BookingsPageState extends State<BookingsPage> with SingleTickerProviderSt
     );
 
     // Simulate rebooking logic (e.g., API call, create new booking object)
-    print('Rebooking "${booking.serviceName}" for $finalBookingDateTime');
     
     // Example of adding to upcoming and showing confirmation:
     // final newBooking = Booking(id: UniqueKey().toString(), /* ... other details ... */ date: finalBookingDateTime, status: "Confirmed");
@@ -267,10 +269,15 @@ class _BookingsPageState extends State<BookingsPage> with SingleTickerProviderSt
   }
 
   void _navigateToExplore() {
-    print('Navigate to explore page action triggered.');
     // Example: Navigator.push(context, MaterialPageRoute(builder: (context) => ExploreServicesPage()));
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Navigating to Explore Services...')),
-    );
+
+Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>  AllPopularBusinessesPage(businesses: sampleBusiness,), // Replace with actual page
+      ),
+    ).then((_) {
+      // Optional: Handle any actions after returning from the explore page
+    });
   }
 }
