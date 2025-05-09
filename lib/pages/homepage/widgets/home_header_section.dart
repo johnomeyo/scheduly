@@ -9,36 +9,12 @@ class HomeHeaderSection extends StatefulWidget {
 }
 
 class _HomeHeaderSectionState extends State<HomeHeaderSection> {
-  final TextEditingController _searchController = TextEditingController();
-
-  List<String> recentSearches = [
-    'Massage therapy',
-    'Hair salon near me',
-    'Personal trainer',
-    'Dental check-up',
-  ];
-
-  void _performSearch(String query) {
-    // Perform search logic here
-    debugPrint('Searching for: $query');
-  }
-
-  void _removeRecentSearch(String search) {
-    setState(() {
-      recentSearches.remove(search);
-    });
-  }
-
-  void _showFilters() {
-    // Show filter bottom sheet or dialog
-    debugPrint('Filter clicked');
-  }
-
   void _openNotifications() {
     // Navigate to notification screen
-    Navigator.push(context, MaterialPageRoute(
-      builder: (context) => const NotificationsPage(),
-    ));
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const NotificationsPage()),
+    );
   }
 
   @override
@@ -61,7 +37,9 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                     Text(
                       'Good morning,',
                       style: theme.textTheme.bodyLarge?.copyWith(
-                        color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                        color: theme.colorScheme.onSurface.withValues(
+                          alpha: 0.7,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -85,51 +63,6 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                 ),
               ],
             ),
-
-            const SizedBox(height: 24),
-
-            // Search bar
-            TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                hintText: 'Search services, businesses...',
-                prefixIcon: const Icon(Icons.search),
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.filter_list),
-                  onPressed: _showFilters,
-                ),
-                filled: true,
-                fillColor: theme.colorScheme.surface,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: const EdgeInsets.symmetric(vertical: 12),
-              ),
-              onSubmitted: _performSearch,
-            ),
-
-            // Recent searches
-            if (recentSearches.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: Wrap(
-                  spacing: 8,
-                  children: recentSearches
-                      .map(
-                        (search) => Chip(
-                          label: Text(search),
-                          onDeleted: () => _removeRecentSearch(search),
-                          backgroundColor: theme.colorScheme.surface,
-                          side: BorderSide(
-                            color:
-                                theme.colorScheme.outline.withValues(alpha: 0.3),
-                          ),
-                        ),
-                      )
-                      .toList(),
-                ),
-              ),
           ],
         ),
       ),

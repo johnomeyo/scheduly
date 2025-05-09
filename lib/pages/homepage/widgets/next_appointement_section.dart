@@ -1,10 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:scheduly/models/booking_model.dart';
 import 'package:scheduly/pages/bookings_page/bookings_page.dart';
 import 'package:scheduly/pages/booking_details_page/booking_details_page.dart'; // New import for details page
 import 'package:scheduly/pages/reschedule_page/reschedule_page.dart'; // New import for reschedule page
+
 class NextAppointmentSection extends StatelessWidget {
   final List<Booking> upcomingBookings;
   final DateFormat dateFormat;
@@ -32,7 +32,7 @@ class NextAppointmentSection extends StatelessWidget {
 
     return SliverToBoxAdapter(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -86,9 +86,7 @@ class AppointmentCard extends StatelessWidget {
   void _rescheduleBooking(BuildContext context, Booking booking) {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => ReschedulePage(booking: booking),
-      ),
+      MaterialPageRoute(builder: (context) => ReschedulePage(booking: booking)),
     );
   }
 
@@ -140,10 +138,7 @@ class AppointmentCard extends StatelessWidget {
 class ServiceIcon extends StatelessWidget {
   final String serviceName;
 
-  const ServiceIcon({
-    super.key,
-    required this.serviceName,
-  });
+  const ServiceIcon({super.key, required this.serviceName});
 
   IconData _getServiceIcon(String serviceName) {
     // Dummy logic for icons
@@ -162,7 +157,7 @@ class ServiceIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
       child: Container(
@@ -206,9 +201,7 @@ class BookingInfo extends StatelessWidget {
         Text(
           booking.businessName,
           style: theme.textTheme.bodyMedium?.copyWith(
-            color: theme.colorScheme.onSurface.withValues(
-              alpha: 0.7,
-            ),
+            color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
           ),
         ),
         const SizedBox(height: 8),
@@ -280,7 +273,7 @@ class ActionButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [

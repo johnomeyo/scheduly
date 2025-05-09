@@ -2,12 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:scheduly/constants/data.dart';
 import 'package:scheduly/models/business_model.dart';
+import 'package:scheduly/models/booking_model.dart';
+import 'package:scheduly/pages/all_businesses_page/widgets/business_card.dart';
 import 'package:scheduly/pages/business_details_page/business_details_page.dart';
 import 'package:scheduly/pages/homepage/widgets/home_header_section.dart';
 import 'package:scheduly/pages/homepage/widgets/next_appointement_section.dart';
 import 'package:scheduly/pages/homepage/widgets/special_offer_section.dart';
 import 'package:scheduly/pages/all_businesses_page/popular_business_page.dart'
     show AllPopularBusinessesPage;
+
+// Assuming you have these models defined somewhere:
+// class BusinessModel { ... }
+// class BookingModel { ... }
+
+// Assuming these are defined in constants/data.dart:
+// List<BusinessModel> sampleBusiness = [...];
+// List<Booking> upcomingBookings = [...]; // Sample bookings
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,45 +29,121 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final TextEditingController _searchController = TextEditingController();
 
+  // State variables managed directly within the State object
+  bool _isLoading = true;
+  String? _errorMessage;
+  List<BusinessModel> _popularBusinesses = [];
+  List<Booking> _upcomingBookings = [];
+  BusinessModel? _specialOfferBusiness;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchHomeData(); // Fetch data when the widget is initialized
+  }
+
   @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
   }
 
+  Future<void> _fetchHomeData() async {
+    // In a real app, you would fetch data from an API or database here.
+    // For this example, we'll simulate loading and use sample data.
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
+    try {
+      // Simulate a network delay
+      await Future.delayed(const Duration(seconds: 1));
+
+      // Assign sample data (replace with actual data fetching logic)
+      _popularBusinesses = sampleBusiness;
+      _upcomingBookings = upcomingBookings;
+      // Assuming the first sample business has a special offer for demonstration
+      _specialOfferBusiness =
+          sampleBusiness.isNotEmpty ? sampleBusiness[0] : null;
+
+      setState(() {
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+        _errorMessage = 'Failed to load data: ${e.toString()}';
+      });
+      debugPrint('Error fetching home data: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
+    // Handle loading and error states before building the main content
+    if (_isLoading) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
+    if (_errorMessage != null) {
+      return Scaffold(body: Center(child: Text('Error: $_errorMessage')));
+    }
 
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            // App Bar with Search
+            // App Bar (assuming HomeHeaderSection doesn't need state from here)
             HomeHeaderSection(),
 
-            // Next Appointment
-            NextAppointmentSection(
-              upcomingBookings: upcomingBookings,
-              dateFormat: DateFormat('MMM dd, yyyy'),
-            ),
+            // Special Offers
+            if (_specialOfferBusiness != null) // Only show if there's an offer
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(
+                    16,
+                    24,
+                    16,
+                    16,
+                  ), // Hardcoded padding
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Special Offers',
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 16), // Hardcoded spacing
+                      SpecialOfferCard(
+                        business: _specialOfferBusiness!,
+                      ), // Use the fetched offer
+                    ],
+                  ),
+                ),
+              ),
 
-            // // Category Services Cards
-            // FeaturedServicesSection(
-            //   services: services,
-            //   onServiceTap:
-            //       (service) => Navigator.push(
-            //         context,
-            //         MaterialPageRoute(
-            //           builder: (_) => ServiceDetailsAndBookingsPage(),
-            //         ),
-            //       ),
-            // ),
+            // Next Appointment
+            if (_upcomingBookings
+                .isNotEmpty) // Only show if there are upcoming bookings
+              NextAppointmentSection(
+                upcomingBookings: _upcomingBookings, // Use the fetched bookings
+                dateFormat: DateFormat('MMM dd, yyyy'),
+              ),
 
             // Popular Near You
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
+                padding: const EdgeInsets.fromLTRB(
+                  16,
+                  24,
+                  16,
+                  8,
+                ), // Hardcoded padding
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -68,7 +154,11 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () => _viewAllBusinesses(context),
+                      onPressed:
+                          () => _viewAllBusinesses(
+                            context,
+                            _popularBusinesses,
+                          ), // Pass fetched data
                       child: const Text('View All'),
                     ),
                   ],
@@ -76,32 +166,25 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SliverList(
-              delegate: SliverChildBuilderDelegate((context, index) {
-                return _buildBusinessCard(theme, sampleBusiness[index]);
-              }, childCount: sampleBusiness.length),
-            ),
-
-            // Special Offers
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Special Offers',
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    //we use this sampleBusiness[0] to show thebbusiness that has the special offer
-                    // in a real app you would fetch the special offer from the server
-                    SpecialOfferCard(business: sampleBusiness[0]),
-                    const SizedBox(height: 32),
-                  ],
-                ),
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  final business = _popularBusinesses[index];
+                  return BusinessCard(
+                    // Use the extracted BusinessCard widget
+                    business: business,
+                    onTap:
+                        () => _viewBusinessDetails(
+                          context,
+                          business,
+                        ), // Pass context and data
+                  );
+                },
+                childCount: _popularBusinesses.length, // Use fetched data count
               ),
+            ),
+            SliverToBoxAdapter(
+              // Add some bottom padding
+              child: SizedBox(height: 16), // Hardcoded padding
             ),
           ],
         ),
@@ -109,160 +192,25 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildBusinessCard(ThemeData theme, BusinessModel business) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-        side: BorderSide(
-          color: theme.colorScheme.outline.withValues(alpha: 0.2),
-        ),
-      ),
-      child: InkWell(
-        onTap: () => _viewBusinessDetails(business),
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Business Image
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Container(
-                  width: 80,
-                  height: 80,
-                  color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                  child: Image.network(
-                    business.imageUrl ??"https://example.com/default-image.jpg",
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Icon(
-                        _getCategoryIcon(business.tagline),
-                        color: theme.colorScheme.primary,
-                        size: 32,
-                      );
-                    },
-                  ),
-                ),
-              ),
-              const SizedBox(width: 16),
-
-              // Business Details
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      business.name,
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      business.tagline,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.primary,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.location_on_outlined,
-                          size: 14,
-                          color: theme.colorScheme.onSurface.withValues(
-                            alpha: 0.6,
-                          ),
-                        ),
-                        const SizedBox(width: 4),
-                        Expanded(
-                          child: Text(
-                            //we calculate distance in miles
-                            // this is a placeholder, in a real app you would calculate the distance based on the user's location
-                            '${business.location} • 1 mi',
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.onSurface.withValues(
-                                alpha: 0.6,
-                              ),
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    Row(
-                      children: [
-                        Icon(Icons.star, size: 14, color: Colors.amber),
-                        const SizedBox(width: 4),
-                        Text(
-                          '${business.rating}',
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        Text(
-                          ' (${business.reviewCount})',
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.onSurface.withValues(
-                              alpha: 0.6,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  void _viewAllBusinesses(BuildContext context) {
-    // Navigate to all businesses
+  // Helper methods for navigation
+  void _viewAllBusinesses(
+    BuildContext context,
+    List<BusinessModel> businesses,
+  ) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder:
-            (context) => AllPopularBusinessesPage(businesses: sampleBusiness),
+        builder: (context) => AllPopularBusinessesPage(businesses: businesses),
       ),
     );
   }
 
-  void _viewBusinessDetails(BusinessModel business) {
-    // Navigate to business details
-    // Navigate to business details
+  void _viewBusinessDetails(BuildContext context, BusinessModel business) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => BusinessDetailsPage(business: business),
       ),
     );
-  }
-
-  // Helper methods
-
-  IconData _getCategoryIcon(String category) {
-    if (category.toLowerCase().contains('spa') ||
-        category.toLowerCase().contains('massage')) {
-      return Icons.spa;
-    } else if (category.toLowerCase().contains('hair') ||
-        category.toLowerCase().contains('beauty')) {
-      return Icons.content_cut;
-    } else if (category.toLowerCase().contains('health') ||
-        category.toLowerCase().contains('wellness')) {
-      return Icons.favorite;
-    } else if (category.toLowerCase().contains('fitness') ||
-        category.toLowerCase().contains('training')) {
-      return Icons.fitness_center;
-    }
-    return Icons.category;
   }
 }
