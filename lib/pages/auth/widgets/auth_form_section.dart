@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class AuthFormSection extends StatelessWidget {
   final GlobalKey<FormState> formKey;
   final TextEditingController emailController;
@@ -29,7 +28,6 @@ class AuthFormSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
 
     return Form(
       key: formKey,
@@ -103,7 +101,10 @@ class AuthFormSection extends StatelessWidget {
               }
               return null;
             },
-            textInputAction: isLogin ? TextInputAction.done : TextInputAction.next, // Adjust for next action
+            textInputAction:
+                isLogin
+                    ? TextInputAction.done
+                    : TextInputAction.next, // Adjust for next action
           ),
 
           // Forgot password (only in login mode)
@@ -123,23 +124,23 @@ class AuthFormSection extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: isLoading ? null : onSubmit, // Use callback and loading state
-              child: isLoading
-                  ? SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: theme.colorScheme.onPrimary,
+              onPressed: isLoading ? null : onSubmit,
+              child:
+                  isLoading
+                      ? SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator.adaptive(
+                          strokeWidth: 2,
+                        ),
+                      )
+                      : Text(
+                        isLogin ? 'LOGIN' : 'SIGN UP',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    )
-                  : Text(
-                      isLogin ? 'LOGIN' : 'SIGN UP',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
             ),
           ),
         ],

@@ -49,7 +49,6 @@ class AllReviewsPage extends StatelessWidget {
   }
 }
 
-// Fixing the ReviewItem widget with correct opacity handling
 class ReviewItem extends StatelessWidget {
   final ReviewModel review;
 
