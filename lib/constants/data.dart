@@ -102,7 +102,7 @@ final Map<String, dynamic> userData = {
   'notificationsEnabled': true,
   'address': '123 Main Street, Apt 4B, New York, NY 10001',
   'paymentMethods': [
-        {
+    {
       'type': 'Credit Card',
       'cardType': 'Visa',
       'lastFour': '4242',
@@ -116,8 +116,6 @@ final Map<String, dynamic> userData = {
       'isDefault': false,
       'expiryDate': '10/25',
     },
-    
-
   ],
 };
 final sampleBusiness = [
@@ -176,7 +174,43 @@ final sampleBusiness = [
             'Great facial treatment. My skin feels refreshed and rejuvenated.',
         date: DateTime(2025, 4, 22),
       ),
+      ReviewModel(
+        id: 'r3',
+        reviewerName: 'Emily Davis',
+        rating: 4.0,
+        comment: 'Had a relaxing manicure and pedicure. The staff was friendly and professional.',
+        date: DateTime(2025, 5, 5),
+      ),
+      ReviewModel(
+        id: 'r4',
+        reviewerName: 'David Lee',
+        rating: 5.0,
+        comment: 'Highly recommend the hot stone massage. It was pure bliss!',
+        date: DateTime(2025, 5, 1),
+      ),
+      ReviewModel(
+        id: 'r5',
+        reviewerName: 'Jessica Rodriguez',
+        rating: 3.5,
+        comment: 'The waxing service was quick and efficient, though a bit uncomfortable.',
+        date: DateTime(2025, 4, 30),
+      ),
+      ReviewModel(
+        id: 'r6',
+        reviewerName: 'James Brown',
+        rating: 4.5,
+        comment: 'Enjoyed the deep tissue massage. Felt much better afterwards.',
+        date: DateTime(2025, 4, 29),
+      ),
+      ReviewModel(
+        id: 'r7',
+        reviewerName: 'Linda Kim',
+        rating: 5.0,
+        comment: 'A wonderful spa experience from start to finish. Will definitely be back.',
+        date: DateTime(2025, 4, 27),
+      ),
     ],
+    contactNumber: '1',
   ),
   BusinessModel(
     id: 'bus2',
@@ -217,6 +251,7 @@ final sampleBusiness = [
         date: DateTime(2025, 3, 10),
       ),
     ],
+    contactNumber: '07234567890',
   ),
   BusinessModel(
     id: 'bus3',
@@ -257,5 +292,6 @@ final sampleBusiness = [
         date: DateTime(2025, 2, 18),
       ),
     ],
+    contactNumber: '07234567890',
   ),
 ];

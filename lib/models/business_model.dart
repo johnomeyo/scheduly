@@ -1,4 +1,3 @@
-// lib/models/business_model.dart
 import 'service_model.dart'; // Import ServiceModel
 import 'review_model.dart'; // Import ReviewModel
 
@@ -7,6 +6,7 @@ class BusinessModel {
   final String name;
   final String tagline;
   final String location;
+  final String contactNumber; // Added contact number property
   final String? imageUrl; // Optional image URL for hero/avatar
   final double rating;
   final int reviewCount;
@@ -20,6 +20,7 @@ class BusinessModel {
     required this.name,
     required this.tagline,
     required this.location,
+    required this.contactNumber, // Added as required parameter
     this.imageUrl,
     required this.rating,
     required this.reviewCount,
@@ -36,6 +37,7 @@ class BusinessModel {
       name: json['name'] as String,
       tagline: json['tagline'] as String,
       location: json['location'] as String,
+      contactNumber: json['contactNumber'] as String, // Added to parse from JSON
       imageUrl: json['imageUrl'] as String?,
       rating: (json['rating'] as num).toDouble(),
       reviewCount: json['reviewCount'] as int,
@@ -57,6 +59,7 @@ class BusinessModel {
       'name': name,
       'tagline': tagline,
       'location': location,
+      'contactNumber': contactNumber, // Added to JSON output
       'imageUrl': imageUrl,
       'rating': rating,
       'reviewCount': reviewCount,

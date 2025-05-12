@@ -173,10 +173,11 @@ class _AuthPageState extends State<AuthPage> {
                         },
                         backgroundColor: Colors.white,
                         textColor: Colors.black87,
-                        iconWidget: Image.network(
-                          'https://img.icons8.com/?size=100&id=17949&format=png&color=000000', // Consider caching this image or using an asset
+                        iconWidget: Image.asset(
+                          'assets/google_logo.png', 
                           height: 24,
                           width: 24,
+                          fit: BoxFit.contain,
                         ),
                         label: 'Google',
                       ),

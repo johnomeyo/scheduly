@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:scheduly/models/business_model.dart'; // Import BusinessModel
-import 'package:scheduly/models/service_model.dart'; // Import ServiceModel
-
-// Import the new modular widgets
+import 'package:scheduly/models/business_model.dart';
+import 'package:scheduly/models/service_model.dart';
+import 'package:scheduly/pages/all_reviews_page.dart/all_reviews_page.dart'
+    show AllReviewsPage;
+import 'package:scheduly/pages/business_details_page/widgets/call_business_page.dart'
+    show CallBusinessButton;
+import 'package:scheduly/pages/business_details_page/widgets/review_button.dart';
 import 'widgets/booking_bottom_sheet.dart';
 import 'widgets/rating_display.dart';
 import 'widgets/feature_chip.dart';
@@ -33,7 +36,6 @@ class BusinessDetailsPage extends StatelessWidget {
     );
   }
 
-  // Corrected from withValues to withOpacity
   Color _applyOpacity(Color color, double opacity) {
     return color.withValues(alpha: opacity);
   }
@@ -50,33 +52,16 @@ class BusinessDetailsPage extends StatelessWidget {
         iconTheme: IconThemeData(
           color: _applyOpacity(Colors.white, 1.0),
         ), // Use white explicitly
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.share),
-            onPressed: () {
-              //  Implement share functionality
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.favorite_border),
-            onPressed: () {
-              //  Implement favorite functionality
-            },
-          ),
-        ],
       ),
       body: CustomScrollView(
         slivers: [
-          // Hero Header (Extracted)
+          // Hero Header
           BusinessHeroHeader(business: business),
 
           // Rating Bar
           SliverToBoxAdapter(
             child: Transform.translate(
-              offset: const Offset(
-                0,
-                -20,
-              ), // Adjust offset if needed after header refactor
+              offset: const Offset(0, -20),
               child: Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 24,
@@ -93,23 +78,11 @@ class BusinessDetailsPage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Use Extracted RatingDisplay widget
                         RatingDisplay(
                           rating: business.rating, // Use model data
                           reviewCount: business.reviewCount, // Use model data
                         ),
-                        OutlinedButton.icon(
-                          style: OutlinedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          onPressed: () {
-                            //  Implement contact functionality (e.g., call, open contact modal)
-                          },
-                          icon: const Icon(Icons.phone),
-                          label: const Text('Contact'),
-                        ),
+                        CallBusinessButton(phoneNumber: business.contactNumber),
                       ],
                     ),
                   ],
@@ -152,7 +125,7 @@ class BusinessDetailsPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          business.about, // Use model data
+                          business.about,
                           style: theme.textTheme.bodyMedium?.copyWith(
                             height: 1.5,
                           ),
@@ -160,7 +133,6 @@ class BusinessDetailsPage extends StatelessWidget {
                         const SizedBox(height: 16),
                         // Feature Chips
                         Wrap(
-                          // Use Wrap for better responsiveness with chips
                           spacing: 8, // Horizontal spacing between chips
                           runSpacing:
                               8, // Vertical spacing between rows of chips
@@ -193,23 +165,12 @@ class BusinessDetailsPage extends StatelessWidget {
                   const SizedBox(height: 32),
 
                   // Services Section
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Available Services',
-                        style: theme.textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: theme.colorScheme.primary,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          //  Navigate to All Services Page
-                        },
-                        child: const Text('View All'),
-                      ),
-                    ],
+                  Text(
+                    'Available Services',
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: theme.colorScheme.primary,
+                    ),
                   ),
                   const SizedBox(height: 16),
 
@@ -237,25 +198,35 @@ class BusinessDetailsPage extends StatelessWidget {
                           color: theme.colorScheme.primary,
                         ),
                       ),
-                      TextButton(
-                        onPressed: () {
-                          //  Navigate to Write Review Page or show modal
+                      ReviewButton(
+                        onReviewSubmitted: (newReview) {
+                          // Handle the new review here
                         },
-                        child: const Text('Write a Review'),
                       ),
                     ],
                   ),
                   const SizedBox(height: 16),
 
-                  // Review Cards (Use Extracted ReviewItem widget)
-                  ...business.reviews.map(
-                    (review) => ReviewItem(review: review), // Pass ReviewModel
-                  ),
+                  ...business.reviews
+                      .take(
+                        business.reviews.length > 3
+                            ? 3
+                            : business.reviews.length,
+                      )
+                      .map((review) => ReviewItem(review: review)),
                   const SizedBox(height: 16),
                   Center(
                     child: TextButton(
                       onPressed: () {
                         //  Navigate to All Reviews Page
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) =>
+                                    AllReviewsPage(reviews: business.reviews),
+                          ),
+                        );
                       },
                       child: const Text('View All Reviews'),
                     ),
@@ -270,12 +241,3 @@ class BusinessDetailsPage extends StatelessWidget {
     );
   }
 }
-
-// Example Usage (in a parent widget or your main.dart)
-/*
-// Create some sample data using the models
-
-
-// Then use it in your navigation or wherever you build BusinessDetailsPage
-// Navigator.push(context, MaterialPageRoute(builder: (context) => BusinessDetailsPage(business: sampleBusiness)));
-*/
