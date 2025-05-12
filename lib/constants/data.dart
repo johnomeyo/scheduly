@@ -102,7 +102,7 @@ final Map<String, dynamic> userData = {
   'notificationsEnabled': true,
   'address': '123 Main Street, Apt 4B, New York, NY 10001',
   'paymentMethods': [
-    {
+        {
       'type': 'Credit Card',
       'cardType': 'Visa',
       'lastFour': '4242',
@@ -116,6 +116,8 @@ final Map<String, dynamic> userData = {
       'isDefault': false,
       'expiryDate': '10/25',
     },
+    
+
   ],
 };
 final sampleBusiness = [
