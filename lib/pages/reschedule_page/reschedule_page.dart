@@ -173,8 +173,7 @@ class _ReschedulePageState extends State<ReschedulePage> {
     // 1. Making an API call to your backend to update the booking.
     // 2. Handling success or failure of the API call.
     // 3. Updating local state or re-fetching data if necessary.
-    print('Rescheduling booking ID: ${widget.booking.id}');
-    print('New Date: $_selectedDate, New Time Slot: $_selectedTimeSlot');
+
     // --- End of Actual Reschedule Logic ---
 
     _showRescheduleSuccessDialog();

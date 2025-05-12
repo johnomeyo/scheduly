@@ -43,7 +43,7 @@ class EditFieldItem extends StatelessWidget {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(
-            color: theme.colorScheme.outline.withOpacity(0.5),
+            color: theme.colorScheme.outline.withValues(alpha: 0.5),
           ),
         ),
         focusedBorder: OutlineInputBorder(

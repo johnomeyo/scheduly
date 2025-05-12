@@ -40,7 +40,7 @@ class BusinessCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: BorderSide(
-          color: theme.colorScheme.outline.withOpacity(0.2),
+          color: theme.colorScheme.outline.withValues(alpha: 0.2),
         ),
       ),
       child: InkWell(
@@ -61,7 +61,7 @@ class BusinessCard extends StatelessWidget {
                   height: 80,
                   fit: BoxFit.cover,
                   placeholder: (context, url) => Container(
-                    color: theme.colorScheme.primary.withOpacity(0.1),
+                    color: theme.colorScheme.primary.withValues(alpha: 0.1),
                     child: const Center( // Added Center for better alignment
                       child: Icon(
                         Icons.business, // Generic placeholder icon
@@ -72,7 +72,7 @@ class BusinessCard extends StatelessWidget {
                     ),
                   ),
                   errorWidget: (context, url, error) => Container(
-                     color: theme.colorScheme.primary.withOpacity(0.1),
+                     color: theme.colorScheme.primary.withValues(alpha: 0.1),
                     child: Center( // Added Center for better alignment
                       child: Icon(
                          // Use category icon on error
@@ -110,7 +110,7 @@ class BusinessCard extends StatelessWidget {
                         Icon(
                           Icons.location_on_outlined,
                           size: 14,
-                          color: theme.colorScheme.onSurface.withOpacity(0.6),
+                          color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                         ),
                         const SizedBox(width: 4),
                         Expanded(
@@ -118,7 +118,7 @@ class BusinessCard extends StatelessWidget {
                             // Placeholder distance
                             '${business.location} • 1 mi',
                             style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.onSurface.withOpacity(0.6),
+                              color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -140,7 +140,7 @@ class BusinessCard extends StatelessWidget {
                         Text(
                           ' (${business.reviewCount})',
                           style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.onSurface.withOpacity(0.6),
+                            color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                           ),
                         ),
                       ],

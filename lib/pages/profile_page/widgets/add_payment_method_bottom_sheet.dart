@@ -339,7 +339,7 @@ class _AddPaymentMethodBottomSheetState extends State<AddPaymentMethodBottomShee
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       decoration: BoxDecoration(
-        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.5)),
+        border: Border.all(color: theme.colorScheme.outline.withValues(alpha: 0.5)),
         borderRadius: BorderRadius.circular(12),
       ),
       child: DropdownButton<String>(

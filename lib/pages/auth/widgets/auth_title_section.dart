@@ -31,7 +31,7 @@ class AuthTitleSection extends StatelessWidget {
               : 'Sign up to get started',
           style: theme.textTheme.bodyLarge?.copyWith(
             // Corrected from withValues to withOpacity
-            color: theme.colorScheme.onSurface.withOpacity(0.7),
+            color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
           ),
           textAlign: TextAlign.center,
         ),

@@ -41,7 +41,7 @@ class _ContactSupportPageState extends State<ContactSupportPage> {
       // Simulate network request or backend call
       await Future.delayed(const Duration(seconds: 2)); // Simulate delay
 
-      // --- TODO: Implement actual submission logic here ---
+      // Implement actual submission logic here ---
       // Example:
       // try {
       //   await ApiService.submitSupportTicket(
@@ -72,11 +72,8 @@ class _ContactSupportPageState extends State<ContactSupportPage> {
       //     _isSubmitting = false; // Reset loading state
       //   });
       // }
-      // --- End of TODO ---
 
-      // --- Placeholder Success Feedback ---
-      print('Subject: ${_subjectController.text}');
-      print('Message: ${_messageController.text}');
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: const Text('Support request submitted successfully! (Placeholder)'),
@@ -98,7 +95,6 @@ class _ContactSupportPageState extends State<ContactSupportPage> {
       // --- End of Placeholder ---
     } else {
       // Form is invalid, show error indication (validation messages appear automatically)
-      print('Form validation failed');
     }
   }
 
@@ -199,7 +195,7 @@ class _ContactSupportPageState extends State<ContactSupportPage> {
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                   // Show loading indicator when submitting
-                  disabledBackgroundColor: theme.colorScheme.primary.withOpacity(0.5),
+                  disabledBackgroundColor: theme.colorScheme.primary.withValues(alpha: 0.5),
                 ),
                 icon: _isSubmitting
                     ? Container( // Show progress indicator

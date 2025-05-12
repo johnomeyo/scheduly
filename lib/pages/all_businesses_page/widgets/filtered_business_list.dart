@@ -37,13 +37,13 @@ class FilteredBusinessList extends StatelessWidget {
               Icon(
                 Icons.search_off_rounded, // A slightly different icon
                 size: 56, // Larger icon
-                color: theme.colorScheme.onSurface.withOpacity(0.4),
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
               ),
               const SizedBox(height: 16.0),
               Text(
                 'No businesses found',
                 style: theme.textTheme.titleMedium?.copyWith(
-                  color: theme.colorScheme.onSurface.withOpacity(0.6),
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                   fontWeight: FontWeight.w600,
                 ),
                 textAlign: TextAlign.center,
@@ -52,7 +52,7 @@ class FilteredBusinessList extends StatelessWidget {
               Text(
                 'Try broadening your search terms or check back later.', // Slightly more informative message
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurface.withOpacity(0.5),
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
                 ),
                 textAlign: TextAlign.center,
               ),

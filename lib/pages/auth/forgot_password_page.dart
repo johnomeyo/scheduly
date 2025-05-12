@@ -272,7 +272,7 @@ class ForgotPasswordPageState extends State<ForgotPasswordPage> {
             elevation: 0,
           ),
           child: const Text(
-            'Back to Login',
+            'Go Back',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,

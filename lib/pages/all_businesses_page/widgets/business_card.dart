@@ -35,7 +35,7 @@ class BusinessCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
         side: BorderSide(
-          color: theme.colorScheme.outline.withOpacity(0.2),
+          color: theme.colorScheme.outline.withValues(alpha: 0.2),
         ),
       ),
       child: InkWell(
@@ -52,7 +52,7 @@ class BusinessCard extends StatelessWidget {
                 child: Container(
                   width: 80,
                   height: 80,
-                  color: theme.colorScheme.primary.withOpacity(0.1), // Placeholder background
+                  color: theme.colorScheme.primary.withValues(alpha: 0.1), // Placeholder background
                   child: Image.network(
                     imageUrl,
                     fit: BoxFit.cover,
@@ -68,7 +68,7 @@ class BusinessCard extends StatelessWidget {
                       );
                     },
                     errorBuilder: (context, error, stackTrace) {
-                      return Icon(Icons.storefront_outlined, size: 40, color: theme.colorScheme.onSurface.withOpacity(0.4));
+                      return Icon(Icons.storefront_outlined, size: 40, color: theme.colorScheme.onSurface.withValues(alpha: 0.4));
                     },
                   ),
                 ),
@@ -132,7 +132,7 @@ class _BusinessLocationInfo extends StatelessWidget {
         Icon(
           Icons.location_on_outlined,
           size: 14,
-          color: theme.colorScheme.onSurface.withOpacity(0.6),
+          color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
         ),
         const SizedBox(width: 4.0),
         Expanded(
@@ -140,7 +140,7 @@ class _BusinessLocationInfo extends StatelessWidget {
             location, // Using location directly as per current requirement
             // displayText, // Use this if distance is included
             style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.onSurface.withOpacity(0.6),
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -174,7 +174,7 @@ class _BusinessRatingInfo extends StatelessWidget {
         Text(
           ' ($reviewCount review${reviewCount == 1 ? "" : "s"})', // Grammatically correct pluralization
           style: theme.textTheme.bodySmall?.copyWith(
-            color: theme.colorScheme.onSurface.withOpacity(0.6),
+            color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
           ),
         ),
       ],
