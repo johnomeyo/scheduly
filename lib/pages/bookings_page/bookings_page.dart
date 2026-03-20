@@ -64,7 +64,7 @@ class _BookingsPageState extends State<BookingsPage> with SingleTickerProviderSt
             fontWeight: FontWeight.bold,
           ),
         ),
-        elevation: 0, // Modern flat look
+        elevation: 0,
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: theme.colorScheme.primary,
@@ -75,7 +75,7 @@ class _BookingsPageState extends State<BookingsPage> with SingleTickerProviderSt
             fontWeight: FontWeight.w600,
           ),
           tabs: const [
-            Tab(text: 'UPCOMING'), // Uppercase for style, if desired
+            Tab(text: 'UPCOMING'), 
             Tab(text: 'PAST'),
           ],
         ),
@@ -277,7 +277,6 @@ Navigator.push(
         builder: (context) =>  AllPopularBusinessesPage(businesses: sampleBusiness,), // Replace with actual page
       ),
     ).then((_) {
-      // Optional: Handle any actions after returning from the explore page
     });
   }
 }

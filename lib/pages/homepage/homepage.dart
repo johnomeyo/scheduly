@@ -40,21 +40,15 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _fetchHomeData() async {
-    // In a real app, you would fetch data from an API or database here.
-    // For this example, we'll simulate loading and use sample data.
     setState(() {
       _isLoading = true;
       _errorMessage = null;
     });
 
     try {
-      // Simulate a network delay
       await Future.delayed(const Duration(seconds: 0));
-
-      // Assign sample data (replace with actual data fetching logic)
       _popularBusinesses = sampleBusiness;
       _upcomingBookings = upcomingBookings;
-      // Assuming the first sample business has a special offer for demonstration
       _specialOfferBusiness =
           sampleBusiness.isNotEmpty ? sampleBusiness[0] : null;
 
