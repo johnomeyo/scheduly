@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// A card widget representing an available time slot.
-///
-/// It changes appearance based on whether it is selected.
 class TimeSlotCard extends StatelessWidget {
   final String timeSlot;
   final bool isSelected;
@@ -18,28 +15,21 @@ class TimeSlotCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    // Assuming timeSlot is "HH:MM AM/PM - HH:MM AM/PM", we only show the start time
     final startTime = timeSlot.split(' - ').first;
 
     return Card(
-      elevation: isSelected ? 1.0 : 0.5,
+      elevation: 0,
       color:
           isSelected
-              ? theme.colorScheme.primaryContainer.withValues(
-                alpha: 0.8,
-              ) // More distinct selection color
-              : theme
-                  .colorScheme
-                  .surfaceContainerHighest, // A slightly elevated surface
+              ? theme.colorScheme.primaryContainer.withValues(alpha: 0.8)
+              : theme.colorScheme.surface,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0), // Slightly more rounded
+        borderRadius: BorderRadius.circular(10.0),
         side: BorderSide(
           color:
               isSelected
                   ? theme.colorScheme.primary
-                  : theme.colorScheme.outline.withValues(
-                    alpha: 0.5,
-                  ), // Standard opacity
+                  : theme.colorScheme.outline.withValues(alpha: 0.3),
           width: isSelected ? 1.5 : 1.0,
         ),
       ),
@@ -53,7 +43,7 @@ class TimeSlotCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(
               horizontal: 8.0,
               vertical: 12.0,
-            ), // Adjust padding
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -61,7 +51,7 @@ class TimeSlotCard extends StatelessWidget {
                   isSelected
                       ? Icons.check_circle_outline_rounded
                       : Icons.access_time_rounded,
-                  size: 18, // Slightly larger icon
+                  size: 18,
                   color:
                       isSelected
                           ? theme.colorScheme.onPrimaryContainer
@@ -69,7 +59,6 @@ class TimeSlotCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Flexible(
-                  // Allow text to wrap if needed, though unlikely for time
                   child: Text(
                     startTime,
                     style: theme.textTheme.bodyMedium?.copyWith(

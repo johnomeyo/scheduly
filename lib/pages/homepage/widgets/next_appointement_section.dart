@@ -140,35 +140,23 @@ class ServiceIcon extends StatelessWidget {
 
   const ServiceIcon({super.key, required this.serviceName});
 
-  IconData _getServiceIcon(String serviceName) {
-    // Dummy logic for icons
-    switch (serviceName.toLowerCase()) {
-      case 'massage':
-        return Icons.spa;
-      case 'haircut':
-        return Icons.content_cut;
-      case 'gym':
-        return Icons.fitness_center;
-      default:
-        return Icons.calendar_today;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    // final theme = Theme.of(context);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
-      child: Container(
+      child: SizedBox(
         width: 60,
         height: 60,
-        color: theme.colorScheme.primary.withValues(alpha: 0.1),
-        child: Icon(
-          _getServiceIcon(serviceName),
-          color: theme.colorScheme.primary,
-          size: 28,
-        ),
+        // color: theme.colorScheme.primary.withValues(alpha: 0.1),
+        child: Image.asset('assets/calendar.png'),
+        // child: Icon(
+        //   _getServiceIcon(serviceName),
+        //   color: theme.colorScheme.primary,
+        //   size: 28,
+        // ),
       ),
     );
   }

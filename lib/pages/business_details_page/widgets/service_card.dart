@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:scheduly/models/service_model.dart'; // Import ServiceModel
+import 'package:scheduly/models/service_model.dart';
+import 'package:scheduly/utils.dart/utils.dart'; // Import ServiceModel
 
 class ServiceCard extends StatelessWidget {
   final ServiceModel service;
@@ -12,9 +13,7 @@ class ServiceCard extends StatelessWidget {
   });
 
   // Corrected from withValues to withOpacity
-   Color _applyOpacity(Color color, double opacity) {
-      return color.withValues(alpha: opacity);
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +38,7 @@ class ServiceCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        service.name, // Use model data
+                        service.name, 
                         style: theme.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -48,7 +47,7 @@ class ServiceCard extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            service.price, // Use model data
+                            service.price, 
                             style: theme.textTheme.titleMedium?.copyWith(
                               color: theme.colorScheme.primary,
                               fontWeight: FontWeight.bold,
@@ -56,10 +55,9 @@ class ServiceCard extends StatelessWidget {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            '· ${service.duration}', // Use model data
+                            '· ${service.duration}', 
                             style: theme.textTheme.bodyMedium?.copyWith(
-                               // Corrected from withValues to withOpacity
-                              color: _applyOpacity(theme.colorScheme.onSurface, 0.6),
+                              color: applyOpacity(theme.colorScheme.onSurface, 0.6),
                             ),
                           ),
                         ],
@@ -75,17 +73,16 @@ class ServiceCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  onPressed: onBookPressed, // Use callback
+                  onPressed: onBookPressed,
                   child: const Text('Book'),
                 ),
               ],
             ),
             const SizedBox(height: 12),
             Text(
-              service.description, // Use model data
+              service.description, 
               style: theme.textTheme.bodyMedium?.copyWith(
-                 // Corrected from withValues to withOpacity
-                color: _applyOpacity(theme.colorScheme.onSurface, 0.7),
+                color: applyOpacity(theme.colorScheme.onSurface, 0.7),
               ),
             ),
           ],
@@ -94,3 +91,4 @@ class ServiceCard extends StatelessWidget {
     );
   }
 }
+

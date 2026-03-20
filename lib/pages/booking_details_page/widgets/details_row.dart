@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class DetailRow extends StatelessWidget {
@@ -19,19 +18,19 @@ class DetailRow extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
+      child: Column(
         children: [
-          Icon(icon, size: 20, color: theme.colorScheme.primary),
-          const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
             children: [
               Text(
                 label,
                 style: theme.textTheme.bodySmall?.copyWith(
+                  fontWeight: FontWeight.w500,
+
                   color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                 ),
               ),
+              Spacer(),
               Text(
                 value,
                 style: theme.textTheme.bodyMedium?.copyWith(
@@ -40,6 +39,7 @@ class DetailRow extends StatelessWidget {
               ),
             ],
           ),
+          Divider(color: theme.colorScheme.onSurface.withValues(alpha: 0.08)),
         ],
       ),
     );

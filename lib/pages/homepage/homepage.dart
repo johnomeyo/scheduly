@@ -11,14 +11,6 @@ import 'package:scheduly/pages/homepage/widgets/special_offer_section.dart';
 import 'package:scheduly/pages/all_businesses_page/popular_business_page.dart'
     show AllPopularBusinessesPage;
 
-// Assuming you have these models defined somewhere:
-// class BusinessModel { ... }
-// class BookingModel { ... }
-
-// Assuming these are defined in constants/data.dart:
-// List<BusinessModel> sampleBusiness = [...];
-// List<Booking> upcomingBookings = [...]; // Sample bookings
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -29,8 +21,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final TextEditingController _searchController = TextEditingController();
 
-  // State variables managed directly within the State object
-  bool _isLoading = true;
+  bool _isLoading = false;
   String? _errorMessage;
   List<BusinessModel> _popularBusinesses = [];
   List<Booking> _upcomingBookings = [];
@@ -39,7 +30,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _fetchHomeData(); // Fetch data when the widget is initialized
+    _fetchHomeData(); 
   }
 
   @override
@@ -58,7 +49,7 @@ class _HomePageState extends State<HomePage> {
 
     try {
       // Simulate a network delay
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(const Duration(seconds: 0));
 
       // Assign sample data (replace with actual data fetching logic)
       _popularBusinesses = sampleBusiness;
@@ -83,7 +74,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    // Handle loading and error states before building the main content
     if (_isLoading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
@@ -96,11 +86,10 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            // App Bar (assuming HomeHeaderSection doesn't need state from here)
             HomeHeaderSection(),
 
             // Special Offers
-            if (_specialOfferBusiness != null) // Only show if there's an offer
+            if (_specialOfferBusiness != null)
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(
@@ -108,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                     24,
                     16,
                     16,
-                  ), // Hardcoded padding
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -118,10 +107,10 @@ class _HomePageState extends State<HomePage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 16), // Hardcoded spacing
+                      const SizedBox(height: 16),
                       SpecialOfferCard(
                         business: _specialOfferBusiness!,
-                      ), // Use the fetched offer
+                      ), 
                     ],
                   ),
                 ),

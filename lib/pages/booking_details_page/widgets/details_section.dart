@@ -24,7 +24,7 @@ class DetailSection extends StatelessWidget {
         Card(
           elevation: 0,
           color: theme.colorScheme.surfaceContainerHighest.withValues(
-            alpha: 0.3,
+            alpha: 0.2,
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),

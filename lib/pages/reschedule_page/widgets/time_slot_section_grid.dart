@@ -25,6 +25,7 @@ class TimeSlotSelectionGrid extends StatelessWidget {
     }
 
     return GridView.builder(
+      physics: NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.all(16.0),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2, // Consider making this responsive (e.g., 3 for wider screens)

@@ -4,7 +4,9 @@ import 'package:scheduly/models/booking_model.dart';
 import 'package:scheduly/pages/booking_details_page/widgets/details_row.dart';
 import 'package:scheduly/pages/booking_details_page/widgets/details_section.dart';
 import 'package:scheduly/pages/booking_details_page/widgets/service_eader.dart';
-import 'package:scheduly/pages/reschedule_page/reschedule_page.dart' show ReschedulePage;
+import 'package:scheduly/pages/reschedule_page/reschedule_page.dart'
+    show ReschedulePage;
+import 'package:scheduly/utils.dart/utils.dart';
 
 class BookingDetailsPage extends StatelessWidget {
   final Booking booking;
@@ -12,36 +14,36 @@ class BookingDetailsPage extends StatelessWidget {
 
   BookingDetailsPage({super.key, required this.booking});
 
-  IconData _getServiceIcon(String serviceName) {
-    switch (serviceName.toLowerCase()) {
-      case 'massage':
-        return Icons.spa;
-      case 'haircut':
-        return Icons.content_cut;
-      case 'gym':
-        return Icons.fitness_center;
-      default:
-        return Icons.calendar_today;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Booking Details'), centerTitle: true),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header with service icon
             ServiceHeader(
+              title: "Booking Detais",
               serviceName: booking.serviceName,
-              icon: _getServiceIcon(booking.serviceName),
+              icon: getServiceIcon(booking.serviceName),
               theme: theme,
             ),
-
+            SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: DetailSection(
+                title: "Service Description",
+                children: [
+                  Text(
+                    "Get a fresh fade, sharp lineup, and stylish finish that matches your vibe. Whether you're going for bold or clean, we’ve got you covered with the latest trends.",
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: applyOpacity(theme.colorScheme.onSurface, 0.7),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             // Booking details
             Padding(
               padding: const EdgeInsets.all(16),
@@ -74,7 +76,7 @@ class BookingDetailsPage extends StatelessWidget {
                       DetailRow(
                         icon: Icons.attach_money,
                         label: 'Price',
-                        value: '\$${booking.price}',
+                        value: 'Kes ${booking.price}',
                       ),
                     ],
                   ),
@@ -82,42 +84,28 @@ class BookingDetailsPage extends StatelessWidget {
                   const SizedBox(height: 24),
 
                   // Action buttons
-                  Row(
-                    children: [
-                      Expanded(
-                        child: OutlinedButton.icon(
-                          onPressed: () => Navigator.pop(context),
-                          icon: const Icon(Icons.close),
-                          label: const Text('Close'),
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: ElevatedButton.icon(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder:
-                                    (context) =>
-                                        ReschedulePage(booking: booking),
-                              ),
-                            );
-                          },
-                          icon: const Icon(Icons.edit_calendar),
-                          label: const Text('Reschedule'),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: theme.colorScheme.primary,
-                            foregroundColor: theme.colorScheme.onPrimary,
+                  const SizedBox(width: 16),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) => ReschedulePage(booking: booking),
                           ),
-                        ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: theme.colorScheme.primary,
+                        foregroundColor: theme.colorScheme.onPrimary,
                       ),
-                    ],
+                      child: const Text('Reschedule'),
+                    ),
                   ),
 
                   const SizedBox(height: 16),
-
-                  // Cancel button
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton.icon(
@@ -177,11 +165,15 @@ class BookingDetailsPage extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: theme.colorScheme.error,
                 ),
-                child: const Text('Cancel Appointment'),
+                child: Text(
+                  'Cancel Appointment',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.onSurface,
+                  ),
+                ),
               ),
             ],
           ),
     );
   }
 }
-
