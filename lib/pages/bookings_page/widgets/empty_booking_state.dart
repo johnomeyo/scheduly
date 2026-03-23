@@ -1,16 +1,8 @@
 
 import 'package:flutter/material.dart';
 
-/// A widget displayed when a list of bookings is empty.
-///
-/// It provides context-specific messages and an optional action button
-/// based on whether it's for "Upcoming" or "Past" bookings.
 class EmptyBookingsState extends StatelessWidget {
-  /// True if this empty state is for upcoming bookings, false for past bookings.
   final bool isUpcoming;
-
-  /// Callback triggered when the "Explore Services" button is pressed.
-  /// This button is only shown if [isUpcoming] is true.
   final VoidCallback? onExploreServices;
 
   const EmptyBookingsState({
@@ -30,9 +22,9 @@ class EmptyBookingsState extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Icon(
-              isUpcoming ? Icons.event_note_sharp : Icons.history_toggle_off_sharp, // Updated icons
-              size: 64, // Adjusted size
-              color: theme.colorScheme.primary.withValues(alpha: 0.6), // Consistent opacity
+              isUpcoming ? Icons.event_note_sharp : Icons.history_toggle_off_sharp,
+              size: 64,
+              color: theme.colorScheme.primary.withValues(alpha: 0.6), 
             ),
             const SizedBox(height: 20),
             Text(

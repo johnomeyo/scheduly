@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:scheduly/models/review_model.dart';
 import 'package:uuid/uuid.dart';
 
-// 1. Review Button Widget
 class ReviewButton extends StatelessWidget {
   final Function(ReviewModel) onReviewSubmitted;
 
@@ -12,8 +11,7 @@ class ReviewButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () {
-        // Show review form dialog when pressed
-        _showReviewDialog(context);
+        showReviewDialog(context);
       },
       style: TextButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -23,8 +21,7 @@ class ReviewButton extends StatelessWidget {
     );
   }
 
-  // Show dialog containing the review form
-  void _showReviewDialog(BuildContext context) {
+  void showReviewDialog(BuildContext context) {
     showDialog(
       context: context,
       builder:
@@ -33,7 +30,6 @@ class ReviewButton extends StatelessWidget {
   }
 }
 
-// 2. Review Form Dialog
 class ReviewFormDialog extends StatefulWidget {
   final Function(ReviewModel) onReviewSubmitted;
 
@@ -47,7 +43,7 @@ class _ReviewFormDialogState extends State<ReviewFormDialog> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _commentController = TextEditingController();
-  double _rating = 3.0; // Default rating
+  double _rating = 3.0;
 
   @override
   void dispose() {
@@ -56,21 +52,16 @@ class _ReviewFormDialogState extends State<ReviewFormDialog> {
     super.dispose();
   }
 
-  void _submitReview() {
+  void submitReview() {
     if (_formKey.currentState!.validate()) {
-      // Create new review with unique ID
       final newReview = ReviewModel(
-        id: const Uuid().v4(), // Generate unique ID
+        id: const Uuid().v4(), 
         reviewerName: _nameController.text.trim(),
         rating: _rating,
         comment: _commentController.text.trim(),
         date: DateTime.now(),
       );
-
-      // Pass the review to parent through callback
       widget.onReviewSubmitted(newReview);
-
-      // Close the dialog
       Navigator.of(context).pop();
     }
   }
@@ -86,7 +77,6 @@ class _ReviewFormDialogState extends State<ReviewFormDialog> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Rating Slider
               const Text(
                 'Rating:',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
@@ -98,7 +88,7 @@ class _ReviewFormDialogState extends State<ReviewFormDialog> {
                       value: _rating,
                       min: 1.0,
                       max: 5.0,
-                      divisions: 8, 
+                      divisions: 8,
                       label: _rating.toString(),
                       onChanged: (value) {
                         setState(() {
@@ -114,7 +104,6 @@ class _ReviewFormDialogState extends State<ReviewFormDialog> {
                 ],
               ),
 
-              // Star display
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(5, (index) {
@@ -131,7 +120,6 @@ class _ReviewFormDialogState extends State<ReviewFormDialog> {
               ),
               const SizedBox(height: 16),
 
-              // Comment Field
               TextFormField(
                 controller: _commentController,
                 decoration: const InputDecoration(
@@ -158,7 +146,7 @@ class _ReviewFormDialogState extends State<ReviewFormDialog> {
           child: const Text('Cancel'),
         ),
         ElevatedButton(
-          onPressed: _submitReview,
+          onPressed: submitReview,
           child: const Text('Submit Review'),
         ),
       ],

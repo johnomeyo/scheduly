@@ -21,7 +21,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   void initState() {
     super.initState();
-    // Initialize controllers with current user data
     _nameController = TextEditingController(text: userData['name']);
     _emailController = TextEditingController(text: userData['email']);
     _phoneController = TextEditingController(text: userData['phone']);
@@ -46,6 +45,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     });
 
     try {
+      //TODO Change to actual API
       // Simulating API call to update profile
       await Future.delayed(const Duration(seconds: 1));
 
@@ -58,7 +58,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
         'profileImage': _profileImageUrl,
       };
 
-      // Update user data (in a real app this would update your state or database)
       userData['name'] = updatedData['name'];
       userData['email'] = updatedData['email'];
       userData['phone'] = updatedData['phone'];

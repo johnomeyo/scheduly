@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:scheduly/models/service_model.dart'; // Import ServiceModel
+import 'package:scheduly/models/service_model.dart';
+import 'package:scheduly/utils.dart/utils.dart'; // Import ServiceModel
 
 class BookingBottomSheet extends StatefulWidget {
   final ServiceModel service;
@@ -13,12 +14,6 @@ class BookingBottomSheet extends StatefulWidget {
 class _BookingBottomSheetState extends State<BookingBottomSheet> {
   DateTime? _selectedDate;
   TimeOfDay? _selectedTime;
-
-  // Corrected from withValues to withOpacity
-  Color _applyOpacity(Color color, double opacity) {
-      return color.withValues(alpha: opacity);
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -38,14 +33,13 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
             height: 6,
             width: 40,
             decoration: BoxDecoration(
-              // Corrected from withValues to withOpacity
-              color: _applyOpacity(theme.colorScheme.onSurface, 0.2),
+              color: applyOpacity(theme.colorScheme.onSurface, 0.2),
               borderRadius: BorderRadius.circular(10),
             ),
           ),
           const SizedBox(height: 24),
           Text(
-            'Book ${widget.service.name}', // Use widget.service
+            'Book ${widget.service.name}', 
             style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
               color: theme.colorScheme.primary,
@@ -54,8 +48,7 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
           const SizedBox(height: 24),
           Card(
             elevation: 0,
-             // Corrected from withValues to withOpacity
-            color: _applyOpacity(theme.colorScheme.surfaceContainerHighest, 0.4),
+            color: applyOpacity(theme.colorScheme.surfaceContainerHighest, 0.4),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
@@ -70,8 +63,7 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
                     ? '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}'
                     : 'Tap to choose a date',
                 style: TextStyle(
-                  // Corrected from withValues to withOpacity
-                  color: _applyOpacity(theme.colorScheme.onSurface, 0.7),
+                  color: applyOpacity(theme.colorScheme.onSurface, 0.7),
                 ),
               ),
               trailing: Icon(
@@ -82,7 +74,7 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
                 final now = DateTime.now();
                 final picked = await showDatePicker(
                   context: context,
-                  initialDate: _selectedDate ?? now, // Use selectedDate if available
+                  initialDate: _selectedDate ?? now, 
                   firstDate: now,
                   lastDate: DateTime(now.year + 1),
                   builder: (context, child) {
@@ -96,7 +88,7 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
                     );
                   },
                 );
-                if (picked != null && picked != _selectedDate) { // Check if a new date was picked
+                if (picked != null && picked != _selectedDate) { 
                   setState(() => _selectedDate = picked);
                 }
               },
@@ -105,8 +97,7 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
           const SizedBox(height: 16),
           Card(
             elevation: 0,
-             // Corrected from withValues to withOpacity
-            color: _applyOpacity(theme.colorScheme.surfaceContainerHighest, 0.4),
+            color: applyOpacity(theme.colorScheme.surfaceContainerHighest, 0.4),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
@@ -121,8 +112,7 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
                     ? _selectedTime!.format(context)
                     : 'Tap to choose a time',
                 style: TextStyle(
-                   // Corrected from withValues to withOpacity
-                  color: _applyOpacity(theme.colorScheme.onSurface, 0.7),
+                  color: applyOpacity(theme.colorScheme.onSurface, 0.7),
                 ),
               ),
               trailing: Icon(
@@ -132,9 +122,9 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
               onTap: () async {
                 final picked = await showTimePicker(
                   context: context,
-                  initialTime: _selectedTime ?? TimeOfDay.now(), // Use selectedTime if available
+                  initialTime: _selectedTime ?? TimeOfDay.now(), 
                 );
-                if (picked != null && picked != _selectedTime) { // Check if a new time was picked
+                if (picked != null && picked != _selectedTime) {
                   setState(() => _selectedTime = picked);
                 }
               },
@@ -156,14 +146,11 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
               ),
               onPressed: () {
                 if (_selectedDate != null && _selectedTime != null) {
-                  // Implement actual booking logic here
-                  Navigator.pop(context); // Close the modal first
+                  Navigator.pop(context); 
 
-                  // Show confirmation SnackBar
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       behavior: SnackBarBehavior.floating,
-                       // Corrected from withValues to withOpacity (if needed, though primaryContainer is opaque)
                       backgroundColor: theme.colorScheme.primaryContainer,
                       content: Text(
                         'Booked ${widget.service.name} on ${_selectedDate!.day}/${_selectedDate!.month} at ${_selectedTime!.format(context)}',
@@ -171,17 +158,16 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
                           color: theme.colorScheme.onPrimaryContainer,
                         ),
                       ),
-                      duration: const Duration(seconds: 3), // Added duration
+                      duration: const Duration(seconds: 3), 
                     ),
                   );
                 } else {
-                   // Show error SnackBar
                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar( // Made const where possible
+                      const SnackBar( 
                         behavior: SnackBarBehavior.floating,
                         content: Text('Please select date and time'),
-                        backgroundColor: Colors.redAccent, // Indicate error
-                        duration: Duration(seconds: 3), // Added duration
+                        backgroundColor: Colors.redAccent, 
+                        duration: Duration(seconds: 3), 
                       ),
                     );
                 }

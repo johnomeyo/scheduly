@@ -21,50 +21,48 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Welcome message and notifications
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Good morning,',
-                      style: theme.textTheme.bodyLarge?.copyWith(
-                        color: theme.colorScheme.onSurface.withValues(
-                          alpha: 0.7,
-                        ),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Welcome message and notifications
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Good morning,',
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      color: theme.colorScheme.onSurface.withValues(
+                        alpha: 0.7,
                       ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Sarah Johnson',
-                      style: theme.textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                IconButton(
-                  icon: Badge(
-                    label: Text('${2}'),
-                    child: Icon(
-                      Icons.notifications_outlined,
-                      color: theme.colorScheme.onSurface,
                     ),
                   ),
-                  onPressed: _openNotifications,
+                  const SizedBox(height: 4),
+                  Text(
+                    'Sarah Johnson',
+                    style: theme.textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              IconButton(
+                icon: Badge(
+                  label: Text('${2}'),
+                  child: Icon(
+                    Icons.notifications_outlined,
+                    color: theme.colorScheme.onSurface,
+                  ),
                 ),
-              ],
-            ),
-          ],
-        ),
+                onPressed: _openNotifications,
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

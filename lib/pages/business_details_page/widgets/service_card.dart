@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:scheduly/models/service_model.dart';
-import 'package:scheduly/utils.dart/utils.dart'; // Import ServiceModel
+import 'package:scheduly/utils.dart/utils.dart';
 
 class ServiceCard extends StatelessWidget {
   final ServiceModel service;
-  final VoidCallback onBookPressed; // Callback for the Book button
+  final VoidCallback onBookPressed;
 
   const ServiceCard({
     super.key,
     required this.service,
     required this.onBookPressed,
   });
-
-  // Corrected from withValues to withOpacity
-
 
   @override
   Widget build(BuildContext context) {

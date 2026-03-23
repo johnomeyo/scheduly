@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:scheduly/models/booking_model.dart';
 import 'package:scheduly/pages/bookings_page/bookings_page.dart';
-import 'package:scheduly/pages/booking_details_page/booking_details_page.dart'; // New import for details page
-import 'package:scheduly/pages/reschedule_page/reschedule_page.dart'; // New import for reschedule page
+import 'package:scheduly/pages/booking_details_page/booking_details_page.dart'; 
+import 'package:scheduly/pages/reschedule_page/reschedule_page.dart'; 
 
 class NextAppointmentSection extends StatelessWidget {
   final List<Booking> upcomingBookings;
@@ -15,7 +15,7 @@ class NextAppointmentSection extends StatelessWidget {
     required this.dateFormat,
   });
 
-  void _viewAllBookings(BuildContext context) {
+  void viewAllBookings(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const BookingsPage()),
@@ -47,7 +47,7 @@ class NextAppointmentSection extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () => _viewAllBookings(context),
+                  onPressed: () => viewAllBookings(context),
                   child: const Text('View All'),
                 ),
               ],
@@ -95,7 +95,7 @@ class AppointmentCard extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Card(
-      elevation: 1,
+      elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
         onTap: () => _viewBookingDetails(context, booking),
@@ -143,20 +143,12 @@ class ServiceIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final theme = Theme.of(context);
-
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
       child: SizedBox(
         width: 60,
         height: 60,
-        // color: theme.colorScheme.primary.withValues(alpha: 0.1),
         child: Image.asset('assets/calendar.png'),
-        // child: Icon(
-        //   _getServiceIcon(serviceName),
-        //   color: theme.colorScheme.primary,
-        //   size: 28,
-        // ),
       ),
     );
   }

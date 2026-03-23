@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scheduly/utils.dart/utils.dart';
 
 class RatingDisplay extends StatelessWidget {
   final double rating;
@@ -9,11 +10,6 @@ class RatingDisplay extends StatelessWidget {
     required this.rating,
     required this.reviewCount,
   });
-
-  // Corrected from withValues to withOpacity
-   Color _applyOpacity(Color color, double opacity) {
-      return color.withValues(alpha: opacity);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +43,7 @@ class RatingDisplay extends StatelessWidget {
         Text(
           '$reviewCount reviews',
           style: theme.textTheme.bodyMedium?.copyWith(
-            // Corrected from withValues to withOpacity
-             color: _applyOpacity(theme.colorScheme.onSurface, 0.7),
+             color: applyOpacity(theme.colorScheme.onSurface, 0.7),
           ),
         ),
       ],

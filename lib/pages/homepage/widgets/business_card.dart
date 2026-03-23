@@ -12,23 +12,6 @@ class BusinessCard extends StatelessWidget {
   final BusinessModel business;
   final VoidCallback onTap;
 
-  // Helper method for category icons - can be moved to a separate helper if needed
-  IconData _getCategoryIcon(String category) {
-    if (category.toLowerCase().contains('spa') ||
-        category.toLowerCase().contains('massage')) {
-      return Icons.spa;
-    } else if (category.toLowerCase().contains('hair') ||
-        category.toLowerCase().contains('beauty')) {
-      return Icons.content_cut;
-    } else if (category.toLowerCase().contains('health') ||
-        category.toLowerCase().contains('wellness')) {
-      return Icons.favorite;
-    } else if (category.toLowerCase().contains('fitness') ||
-        category.toLowerCase().contains('training')) {
-      return Icons.fitness_center;
-    }
-    return Icons.category;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,29 +38,15 @@ class BusinessCard extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: CachedNetworkImage(
-                  // Use a placeholder image if business.imageUrl is null or empty
                   imageUrl: business.imageUrl ?? "https://via.placeholder.com/80",
                   width: 80,
                   height: 80,
                   fit: BoxFit.cover,
                   placeholder: (context, url) => Container(
                     color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                    child: const Center( // Added Center for better alignment
+                    child: const Center( 
                       child: Icon(
-                        Icons.business, // Generic placeholder icon
-                        size: 32,
-                        // Color will be applied by the parent container color filter if needed,
-                        // or you can set it explicitly here if you want a different color for the placeholder
-                      ),
-                    ),
-                  ),
-                  errorWidget: (context, url, error) => Container(
-                     color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                    child: Center( // Added Center for better alignment
-                      child: Icon(
-                         // Use category icon on error
-                        _getCategoryIcon(business.tagline),
-                        color: theme.colorScheme.primary,
+                        Icons.business, 
                         size: 32,
                       ),
                     ),

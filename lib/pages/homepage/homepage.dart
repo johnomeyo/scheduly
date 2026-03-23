@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:scheduly/constants/data.dart';
 import 'package:scheduly/models/business_model.dart';
-import 'package:scheduly/models/booking_model.dart';
 import 'package:scheduly/pages/all_businesses_page/widgets/business_card.dart';
 import 'package:scheduly/pages/business_details_page/business_details_page.dart';
 import 'package:scheduly/pages/homepage/widgets/home_header_section.dart';
@@ -24,13 +23,12 @@ class _HomePageState extends State<HomePage> {
   bool _isLoading = false;
   String? _errorMessage;
   List<BusinessModel> _popularBusinesses = [];
-  List<Booking> _upcomingBookings = [];
-  BusinessModel? _specialOfferBusiness;
+  BusinessModel? specialOfferBusiness;
 
   @override
   void initState() {
     super.initState();
-    _fetchHomeData(); 
+    _fetchHomeData();
   }
 
   @override
@@ -48,8 +46,7 @@ class _HomePageState extends State<HomePage> {
     try {
       await Future.delayed(const Duration(seconds: 0));
       _popularBusinesses = sampleBusiness;
-      _upcomingBookings = upcomingBookings;
-      _specialOfferBusiness =
+      specialOfferBusiness =
           sampleBusiness.isNotEmpty ? sampleBusiness[0] : null;
 
       setState(() {
@@ -80,18 +77,16 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            HomeHeaderSection(),
-
+            SliverAppBar(
+              expandedHeight: 80,
+              pinned: true,
+              flexibleSpace: FlexibleSpaceBar(background: HomeHeaderSection()),
+            ),
             // Special Offers
-            if (_specialOfferBusiness != null)
+            if (specialOfferBusiness != null)
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                    16,
-                    24,
-                    16,
-                    16,
-                  ),
+                  padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -102,31 +97,23 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      SpecialOfferCard(
-                        business: _specialOfferBusiness!,
-                      ), 
+                      SpecialOfferCard(business: specialOfferBusiness!),
                     ],
                   ),
                 ),
               ),
 
             // Next Appointment
-            if (_upcomingBookings
-                .isNotEmpty) // Only show if there are upcoming bookings
+            if (upcomingBookings.isNotEmpty)
               NextAppointmentSection(
-                upcomingBookings: _upcomingBookings, // Use the fetched bookings
+                upcomingBookings: upcomingBookings,
                 dateFormat: DateFormat('MMM dd, yyyy'),
               ),
 
             // Popular Near You
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(
-                  16,
-                  24,
-                  16,
-                  8,
-                ), 
+                padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -138,10 +125,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     TextButton(
                       onPressed:
-                          () => _viewAllBusinesses(
-                            context,
-                            _popularBusinesses,
-                          ), // Pass fetched data
+                          () => viewAllBusinesses(context, _popularBusinesses),
                       child: const Text('View All'),
                     ),
                   ],
@@ -149,26 +133,15 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  final business = _popularBusinesses[index];
-                  return BusinessCard(
-                    // Use the extracted BusinessCard widget
-                    business: business,
-                    onTap:
-                        () => _viewBusinessDetails(
-                          context,
-                          business,
-                        ), // Pass context and data
-                  );
-                },
-                childCount: _popularBusinesses.length, // Use fetched data count
-              ),
+              delegate: SliverChildBuilderDelegate((context, index) {
+                final business = _popularBusinesses[index];
+                return BusinessCard(
+                  business: business,
+                  onTap: () => _viewBusinessDetails(context, business),
+                );
+              }, childCount: _popularBusinesses.length),
             ),
-            SliverToBoxAdapter(
-              // Add some bottom padding
-              child: SizedBox(height: 16), 
-            ),
+            SliverToBoxAdapter(child: SizedBox(height: 16)),
           ],
         ),
       ),
@@ -176,10 +149,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   // Helper methods for navigation
-  void _viewAllBusinesses(
-    BuildContext context,
-    List<BusinessModel> businesses,
-  ) {
+  void viewAllBusinesses(BuildContext context, List<BusinessModel> businesses) {
     Navigator.push(
       context,
       MaterialPageRoute(
