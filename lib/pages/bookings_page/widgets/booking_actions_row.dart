@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 /// A row displaying conditional action buttons for a booking.
@@ -9,6 +8,8 @@ class BookingActionsRow extends StatelessWidget {
   /// Indicates if the booking is upcoming, determining which actions are relevant.
   final bool isUpcoming;
   final VoidCallback? onCancel;
+  final VoidCallback? onView;
+
   final VoidCallback? onReschedule;
   final VoidCallback? onRebook;
 
@@ -18,6 +19,7 @@ class BookingActionsRow extends StatelessWidget {
     this.onCancel,
     this.onReschedule,
     this.onRebook,
+    this.onView,
   });
 
   @override
@@ -31,7 +33,8 @@ class BookingActionsRow extends StatelessWidget {
     return Padding(
       // Added top padding for separation from content above
       padding: const EdgeInsets.fromLTRB(12.0, 8.0, 12.0, 12.0),
-      child: Wrap( // Use Wrap for responsiveness
+      child: Wrap(
+        // Use Wrap for responsiveness
         alignment: WrapAlignment.end,
         spacing: 8.0, // Horizontal space between buttons
         runSpacing: 4.0, // Vertical space if buttons wrap
@@ -43,29 +46,33 @@ class BookingActionsRow extends StatelessWidget {
               onPressed: onRebook,
               style: TextButton.styleFrom(
                 foregroundColor: theme.colorScheme.primary,
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
               ),
             ),
-          if (onReschedule != null && isUpcoming)
-            TextButton.icon(
-              icon: const Icon(Icons.edit_calendar_outlined, size: 20),
-              label: const Text('Reschedule'),
-              onPressed: onReschedule,
-              style: TextButton.styleFrom(
-                foregroundColor: theme.colorScheme.secondary, // Differentiate reschedule action
-                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              ),
-            ),
-          if (onCancel != null && isUpcoming)
-            TextButton.icon(
-              icon: const Icon(Icons.cancel_schedule_send_outlined, size: 20), // More specific cancel icon
-              label: const Text('Cancel'),
-              onPressed: onCancel,
-              style: TextButton.styleFrom(
-                foregroundColor: theme.colorScheme.error,
-                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              ),
-            ),
+          // if (onReschedule != null && isUpcoming)
+          //   TextButton.icon(
+          //     icon: const Icon(Icons.edit_calendar_outlined, size: 20),
+          //     label: const Text('Reschedule'),
+          //     onPressed: onReschedule,
+          //     style: TextButton.styleFrom(
+          //       foregroundColor: theme.colorScheme.secondary, // Differentiate reschedule action
+          //        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          //     ),
+          //   ),
+          if (onView != null && isUpcoming)
+            FilledButton(onPressed: () => onView, child: Text("View")),
+          // TextButton.icon(
+          //   icon: const Icon(Icons.cancel_schedule_send_outlined, size: 20), // More specific cancel icon
+          //   label: const Text('Cancel'),
+          //   onPressed: onCancel,
+          //   style: TextButton.styleFrom(
+          //     foregroundColor: theme.colorScheme.error,
+          //      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          //   ),
+          // ),
         ],
       ),
     );

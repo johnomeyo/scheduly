@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:scheduly/models/booking_model.dart';
+import 'package:scheduly/pages/bookings_page/widgets/booking_actions_row.dart';
 import './booking_status_chip.dart';
 
 class BookingCard extends StatelessWidget {
@@ -10,6 +12,7 @@ class BookingCard extends StatelessWidget {
   final VoidCallback? onCancel;
   final VoidCallback? onReschedule;
   final VoidCallback? onRebook;
+  final VoidCallback? onView;
 
   const BookingCard({
     super.key,
@@ -19,32 +22,13 @@ class BookingCard extends StatelessWidget {
     this.onCancel,
     this.onReschedule,
     this.onRebook,
+    this.onView,
   });
-
-  IconData _getServiceIcon(String serviceName) {
-    final nameLower = serviceName.toLowerCase();
-    if (nameLower.contains('hair')) return Icons.content_cut;
-    if (nameLower.contains('massage') || nameLower.contains('spa')) {
-      return Icons.spa_outlined;
-    }
-    if (nameLower.contains('dental')) return Icons.medical_services_outlined;
-    if (nameLower.contains('car') || nameLower.contains('auto')) {
-      return Icons.directions_car_outlined;
-    }
-    if (nameLower.contains('fitness') || nameLower.contains('gym')) {
-      return Icons.fitness_center_outlined;
-    }
-    if (nameLower.contains('cleaning')) return Icons.cleaning_services_outlined;
-    if (nameLower.contains('nail')) return Icons.brush_outlined;
-    if (nameLower.contains('consult')) return Icons.support_agent_outlined;
-    return Icons.bookmark_added_outlined;
-  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final dateFormat = DateFormat('EEE, MMM d, yyyy');
-    final timeFormat = DateFormat.jm();
 
     return Card(
       elevation: 0,
@@ -59,103 +43,89 @@ class BookingCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Header: Status and Date
             Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 10.0,
-              ),
+              height: 200,
               decoration: BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: CachedNetworkImageProvider(
+                    "https://plus.unsplash.com/premium_photo-1710522706708-a2abedac72c1?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                  ),
+                ),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(12.0),
                   topRight: Radius.circular(12.0),
                 ),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  BookingStatusChip(status: booking.status.name),
                   Text(
-                    dateFormat.format(booking.date),
+                    dateFormat.format(booking.date).split(" ")[1],
                     style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
+                      color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
                       fontWeight: FontWeight.w500,
                     ),
                   ),
+                  Text(
+                    dateFormat.format(booking.date).split(" ")[2].split(',')[0],
+                    style: theme.textTheme.headlineMedium?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                  Text(
+                    dateFormat.format(booking.date).split(" ")[0].split(",")[0],
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  SizedBox(height: 8,),
+                  BookingStatusChip(status: booking.status.name),
                 ],
               ),
             ),
 
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(8.0),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    width: 64,
-                    height: 64,
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.secondaryContainer.withValues(
-                        alpha: 0.7,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        booking.businessName,
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Icon(
-                      _getServiceIcon(booking.serviceName),
-                      color: theme.colorScheme.onSecondaryContainer,
-                      size: 30,
-                    ),
-                  ),
-                  const SizedBox(width: 16.0),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          booking.serviceName,
-                          style: theme.textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 4.0),
-                        Text(
-                          booking.businessName,
-                          style: theme.textTheme.bodyMedium?.copyWith(
+                      SizedBox(height: 5),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.location_pin,
+                            size: 12,
                             color: theme.colorScheme.onSurface.withValues(
-                              alpha: 0.75,
+                              alpha: 0.5,
                             ),
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Row(
-                          children: [
-                            Image.asset(
-                              "assets/clock.png",
-                              height: 25,
-                              width: 25,
-                            ),
-                            const SizedBox(width: 6.0),
-                            Text(
-                              booking.timeSlot.isNotEmpty
-                                  ? booking.timeSlot
-                                  : timeFormat.format(booking.date),
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                color: theme.colorScheme.onSurface.withValues(
-                                  alpha: 0.5,
-                                ),
-                                fontWeight: FontWeight.w500,
+                          Text(
+                            'Serenity Plaza',
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: theme.colorScheme.onSurface.withValues(
+                                alpha: 0.5,
                               ),
                             ),
-                          ],
-                        ),
-                        const SizedBox(height: 6.0),
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
+                  Spacer(),
                   Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       const SizedBox(height: 20.0),
                       Text(
@@ -168,6 +138,15 @@ class BookingCard extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      Text(
+                        "Per Session",
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: theme.colorScheme.onSurface.withValues(
+                            alpha: 0.5,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -175,12 +154,39 @@ class BookingCard extends StatelessWidget {
             ),
 
             // Action Buttons
-            // BookingActionsRow(
-            //   isUpcoming: isUpcoming,
-            //   onCancel: onCancel,
-            //   onReschedule: onReschedule,
-            //   onRebook: onRebook,
-            // ),
+            Row(
+              children: [
+                SizedBox(width: 12),
+
+                Icon(Icons.av_timer_outlined, color: theme.colorScheme.primary),
+                SizedBox(width: 12),
+                Text(
+                  booking.timeSlot.split("-")[0],
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(width: 12),
+
+                Text('|'),
+                SizedBox(width: 12),
+
+                Text(
+                  "90 min",
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
+                  ),
+                ),
+                Spacer(),
+                BookingActionsRow(
+                  isUpcoming: isUpcoming,
+                  onCancel: onCancel,
+                  onReschedule: onReschedule,
+                  onRebook: onRebook,
+                  onView: onTap,
+                ),
+              ],
+            ),
           ],
         ),
       ),

@@ -50,8 +50,8 @@ class SettingsSectionWidget extends StatelessWidget {
             icon: Icons.notifications_outlined,
             trailing: Switch(
               value: notificationsEnabled,
-              onChanged: onNotificationsChanged, // Directly use the passed callback
-              activeColor: theme.colorScheme.primary,
+              onChanged: onNotificationsChanged,
+              activeThumbColor: theme.colorScheme.primary,
             ),
             // No onTap needed for the row itself if Switch handles interaction
           ),
@@ -61,7 +61,7 @@ class SettingsSectionWidget extends StatelessWidget {
             title: 'Privacy Settings',
             subtitle: 'Manage your data and privacy preferences',
             icon: Icons.privacy_tip_outlined,
-            onTap: onTapPrivacy, // Pass the callback
+            onTap: onTapPrivacy,
           ),
           _buildDivider(context),
           SettingsTileWidget(
@@ -69,7 +69,7 @@ class SettingsSectionWidget extends StatelessWidget {
             title: 'Change Password',
             subtitle: 'Update your account password',
             icon: Icons.lock_outline,
-            onTap: onTapChangePassword, // Pass the callback
+            onTap: onTapChangePassword,
           ),
         ],
       ),

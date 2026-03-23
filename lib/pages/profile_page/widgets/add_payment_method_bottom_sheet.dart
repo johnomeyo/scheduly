@@ -290,7 +290,7 @@ class _AddPaymentMethodBottomSheetState extends State<AddPaymentMethodBottomShee
                       });
                     },
                     contentPadding: EdgeInsets.zero,
-                    activeColor: theme.colorScheme.primary,
+                    activeThumbColor: theme.colorScheme.primary,
                   ),
                   
                   const SizedBox(height: 24),

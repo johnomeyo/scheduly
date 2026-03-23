@@ -72,8 +72,9 @@ class _ReschedulePageState extends State<ReschedulePage> {
       // Generate for a week ahead
       final date = now.add(Duration(days: i));
       final key = _formatDateKey(date);
-      if (_availableTimeSlots.containsKey(key))
+      if (_availableTimeSlots.containsKey(key)) {
         continue; // Skip if already defined
+      }
 
       final List<String> slots = [];
       final baseSlots = [

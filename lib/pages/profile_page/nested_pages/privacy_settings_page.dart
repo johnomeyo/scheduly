@@ -324,7 +324,7 @@ class SettingsToggle extends StatelessWidget {
         value: value,
         onChanged: onChanged,
         dense: true,
-        activeColor: theme.colorScheme.primary,
+        activeThumbColor: theme.colorScheme.primary,
       ),
     );
   }
