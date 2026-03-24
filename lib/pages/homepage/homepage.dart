@@ -79,7 +79,6 @@ class _HomePageState extends State<HomePage> {
           slivers: [
             SliverAppBar(
               expandedHeight: 80,
-              pinned: true,
               flexibleSpace: FlexibleSpaceBar(background: HomeHeaderSection()),
             ),
             // Special Offers

@@ -21,7 +21,7 @@ class SpecialOfferCard extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Card(
-      elevation: 1,
+      elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Column(
         children: [

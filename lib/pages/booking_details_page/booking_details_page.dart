@@ -4,6 +4,8 @@ import 'package:scheduly/models/booking_model.dart';
 import 'package:scheduly/pages/booking_details_page/widgets/details_row.dart';
 import 'package:scheduly/pages/booking_details_page/widgets/details_section.dart';
 import 'package:scheduly/pages/booking_details_page/widgets/service_eader.dart';
+import 'package:scheduly/pages/bookings_page/widgets/custom_location_map.dart';
+import 'package:scheduly/pages/profile_page/nested_pages/terms_of_service_page.dart';
 import 'package:scheduly/pages/reschedule_page/reschedule_page.dart'
     show ReschedulePage;
 import 'package:scheduly/utils.dart/utils.dart';
@@ -19,6 +21,7 @@ class BookingDetailsPage extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
+      appBar: AppBar(title: Text("Appointment Details")),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,11 +83,11 @@ class BookingDetailsPage extends StatelessWidget {
                       ),
                     ],
                   ),
-
-                  const SizedBox(height: 24),
-
+                  SectionTitle(title: "Business Location"),
+                  const SizedBox(height: 8),
+                  CustomLocationMap(),
                   // Action buttons
-                  const SizedBox(width: 16),
+                  const SizedBox(height: 16),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -105,19 +108,17 @@ class BookingDetailsPage extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 16),
                   SizedBox(
                     width: double.infinity,
-                    child: OutlinedButton.icon(
+                    child: OutlinedButton(
                       onPressed: () {
-                        _showCancelConfirmation(context);
+                        showCancelConfirmation(context);
                       },
-                      icon: const Icon(Icons.cancel),
-                      label: const Text('Cancel Appointment'),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: theme.colorScheme.error,
                         side: BorderSide(color: theme.colorScheme.error),
                       ),
+                      child: const Text('Cancel Appointment'),
                     ),
                   ),
                 ],
@@ -129,7 +130,7 @@ class BookingDetailsPage extends StatelessWidget {
     );
   }
 
-  void _showCancelConfirmation(BuildContext context) {
+  void showCancelConfirmation(BuildContext context) {
     final theme = Theme.of(context);
 
     showDialog(

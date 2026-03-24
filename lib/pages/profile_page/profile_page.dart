@@ -8,7 +8,6 @@ import 'package:scheduly/pages/profile_page/widgets/add_payment_method_bottom_sh
 import 'package:scheduly/pages/profile_page/widgets/profile_support_section.dart'
     show SupportSection;
 import 'package:scheduly/pages/profile_page/widgets/logout_btn.dart';
-import 'package:scheduly/pages/profile_page/widgets/payment_methods_section.dart';
 import 'package:scheduly/pages/profile_page/widgets/profile_header.dart';
 import 'package:scheduly/pages/profile_page/widgets/settings_section.dart';
 
@@ -20,13 +19,11 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  // Settings state
   bool _notificationsEnabled = true;
 
   @override
   void initState() {
     super.initState();
-    // Initialize settings from user data
     _notificationsEnabled = userData['notificationsEnabled'] ?? true;
   }
 
@@ -73,19 +70,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   _notificationsEnabled = value;
                 });
               },
-              onTapPrivacy: () => _navigateToPrivacySettings(),
+              onTapPrivacy: () => navigateToPrivacySettings(),
               onTapChangePassword: () => _changePassword(),
             ),
-
-            const SizedBox(height: 16),
-            _buildSectionHeader(theme, 'Payment Methods'),
-            PaymentMethodsSectionWidget(
-              paymentMethods: userData['paymentMethods'],
-              onAddPaymentMethod: () => _addPaymentMethod(),
-              onShowPaymentOptions:
-                  (paymentMethod) => _showPaymentMethodOptions(paymentMethod),
-            ),
-
             const SizedBox(height: 16),
 
             _buildSectionHeader(theme, 'Support'),
@@ -161,7 +148,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  void _navigateToPrivacySettings() {
+  void navigateToPrivacySettings() {
     // Navigate to privacy settings page
     Navigator.push(
       context,
@@ -177,7 +164,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  void _addPaymentMethod() {
+  void addPaymentMethod() {
     // Show bottom sheet to add payment method
     AddPaymentMethodBottomSheet.show(context, (newPaymentMethod) {
       setState(() {
@@ -202,7 +189,7 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
-  void _showPaymentMethodOptions(Map<String, dynamic> paymentMethod) {
+  void showPaymentMethodOptions(Map<String, dynamic> paymentMethod) {
     // Show bottom sheet with payment method options
   }
 }
